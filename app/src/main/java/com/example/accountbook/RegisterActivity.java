@@ -49,9 +49,9 @@ public class RegisterActivity extends AppCompatActivity {
 
                 Log.i("TAG",name+"_"+pass+"_"+birthdayStr+"_"+sexStr);
 
-                UserService uService=new UserService(RegisterActivity.this);
+                UserService uService = new UserService(RegisterActivity.this);
 
-                User user=new User();
+                User user = new User();
                 user.setUsername(name);
                 user.setPassword(pass);
                 user.setBirthday(birthdayStr);
