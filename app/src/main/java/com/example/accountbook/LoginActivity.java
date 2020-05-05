@@ -40,6 +40,10 @@ public class LoginActivity extends AppCompatActivity {
                 System.out.println(name);
                 String pass=password.getText().toString();
                 System.out.println(pass);
+                if (name.equals("") || password.equals("")){
+                    Toast.makeText((LoginActivity.this), "Please enter your account information", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 Log.i("TAG",name+"_"+pass);
                 UserService uService=new UserService(LoginActivity.this);
@@ -49,6 +53,7 @@ public class LoginActivity extends AppCompatActivity {
                     Log.i("TAG","Login successfully");
                     Toast.makeText(LoginActivity.this, "Login successfully", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    intent.putExtra("username", name);
                     startActivity(intent);
                 }else{
                     Log.i("TAG","Fail to login");
@@ -58,8 +63,7 @@ public class LoginActivity extends AppCompatActivity {
         });
         register.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent=new Intent(LoginActivity.this,RegisterActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
             }
         });
     }

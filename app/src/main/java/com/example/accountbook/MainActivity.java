@@ -1,11 +1,13 @@
 package com.example.accountbook;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 import android.widget.Toast;
 
+import com.example.accountbook.service.UserService;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -23,12 +25,18 @@ import androidx.appcompat.widget.Toolbar;
 public class MainActivity extends AppCompatActivity{
 
     private AppBarConfiguration mAppBarConfiguration;
+    public static Integer userId = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
+
+        UserService user = new UserService(this);
+        Intent intent = getIntent();
+        userId = user.getUserId(intent.getStringExtra("username"));
+
         //实现toolbar替换默认的Actionbar
         setSupportActionBar(toolbar);
 
@@ -57,13 +65,6 @@ public class MainActivity extends AppCompatActivity{
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         //使得drawer显示
         NavigationUI.setupWithNavController(navigationView, navController);
-
-        //动态添加menuItem项设置id
-//        Menu menu = navigationView.getMenu();
-//
-//        menu.clear();
-//        menu.add(0, R.id.nav_gallery, 0, "gallery").setIcon(R.drawable.ic_menu_gallery);
-//        menu.add(0, R.id.nav_send, 1, "send").setIcon(R.drawable.ic_menu_send);
     }
 
     @Override

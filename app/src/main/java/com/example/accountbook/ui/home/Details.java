@@ -3,12 +3,21 @@ package com.example.accountbook.ui.home;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
+import com.example.accountbook.MainActivity;
 import com.example.accountbook.R;
+import com.example.accountbook.service.DatabaseHelper;
+import com.example.accountbook.service.DetailService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,6 +33,10 @@ public class Details extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private DetailsAdapter mAdapter;
+    private View view;
+    private RecyclerView itemRecyclerView;
 
     public Details() {
         // Required empty public constructor
@@ -57,9 +70,31 @@ public class Details extends Fragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_details, container, false);
+        view = inflater.inflate(R.layout.fragment_details, container, false);
+        itemRecyclerView = view.findViewById(R.id.recycler_details);
+        initRecyclerView();
+        return view;
+    }
+
+    private void initRecyclerView() {
+        DetailService details = new DetailService(this.getActivity());
+        List<DetailsItem> mitemList = new ArrayList<>();
+        //mitemList = details.getData(MainActivity.userId);
+        mitemList.add(new DetailsItem("WeChat", "+200", "2020/5/5"));
+        if(mitemList == null){
+            return;
+        }
+        mAdapter = new DetailsAdapter(mitemList, getActivity());
+        itemRecyclerView.setAdapter(mAdapter);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        itemRecyclerView.setLayoutManager(layoutManager);
     }
 }

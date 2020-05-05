@@ -8,13 +8,19 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseHelper extends SQLiteOpenHelper {
     static String name="sit305.db";
     static int dbVersion=1;
+
     public DatabaseHelper(Context context) {
         super(context, name, null, dbVersion);
     }
 
     public void onCreate(SQLiteDatabase db) {
-        String sql="create table user(id integer primary key autoincrement,username varchar(20),password varchar(20),birthday varchar(12),sex varchar(2))";
-        db.execSQL(sql);
+        db.execSQL("create table if not exists user(id INTEGER primary key autoincrement, username STRING not null," +
+                "password STRING not null, birthday STRING not null, sex STRING not null)");
+        db.execSQL("create table if not exists flow_type(id INTEGER primary key autoincrement, type_name STRING not null)");
+        db.execSQL("create table if not exists costDetail(id INTEGER primary key autoincrement," +
+                "user_id INTEGER not null, type STRING not null, money STRING not null," +
+                "note STRING, makeDate STRING not null, isCost BOOLEAN not null)");
+
     }
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 

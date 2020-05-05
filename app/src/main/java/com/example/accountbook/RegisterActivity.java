@@ -57,8 +57,15 @@ public class RegisterActivity extends AppCompatActivity {
                 user.setBirthday(birthdayStr);
                 user.setSex(sexStr);
 
-                uService.register(user);
-                Toast.makeText(RegisterActivity.this, "Register Successfully", Toast.LENGTH_LONG).show();
+                if(user.getUsername().equals("") || user.getPassword().equals("")){
+                    Toast.makeText(RegisterActivity.this, "Please enter information", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(uService.register(user)){
+                    Toast.makeText(RegisterActivity.this, "Register Successfully", Toast.LENGTH_LONG).show();
+                }else{
+                    Toast.makeText(RegisterActivity.this, "This username has existed", Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
