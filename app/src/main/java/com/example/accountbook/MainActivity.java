@@ -25,7 +25,6 @@ import androidx.appcompat.widget.Toolbar;
 public class MainActivity extends AppCompatActivity{
 
     private AppBarConfiguration mAppBarConfiguration;
-    public static Integer userId = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +34,7 @@ public class MainActivity extends AppCompatActivity{
 
         UserService user = new UserService(this);
         Intent intent = getIntent();
-        userId = user.getUserId(intent.getStringExtra("username"));
+        UserService.setUsername(intent.getStringExtra("username"));
 
         //实现toolbar替换默认的Actionbar
         setSupportActionBar(toolbar);

@@ -6,9 +6,18 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.example.accountbook.User;
+import com.example.accountbook.ui.home.DetailsItem;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class UserService {
+    public static void setUsername(String username) {
+        UserService.username = username;
+    }
+
+    private static String username = null;
     private DatabaseHelper dbHelper;
     public UserService(Context context){
         dbHelper=new DatabaseHelper(context);
@@ -38,15 +47,30 @@ public class UserService {
             return false;
         }
     }
-    public Integer getUserId(String name){
-        Integer id = null;
+    public List<DetailsItem> getData(){
+        List<DetailsItem> mitemList = new ArrayList<>();
         SQLiteDatabase sdb = dbHelper.getReadableDatabase();
-        String sql="select id from user where username=?";
-        Cursor cursor = sdb.rawQuery(sql, new String[]{name});
-        if(cursor.moveToNext()){
-            id = cursor.getInt(cursor.getColumnIndex("id"));
+        String sql = "select * from costDetail x, flow_type y, user z where x.type=y.id and z.id=x.user_id and z.username=?";
+        Cursor cursor = sdb.rawQuery(sql, new String[]{username});
+        if (cursor.moveToFirst()) {
+            Boolean isCost;
+            String money, date, type;
+            do {
+                isCost = cursor.getString(cursor.getColumnIndex("isCost")).equals("1");
+                money = cursor.getString(cursor.getColumnIndex("money"));
+                date = cursor.getString(cursor.getColumnIndex("makeDate"));
+                type = cursor.getString(cursor.getColumnIndex("type_name"));
+                if (isCost){
+                    money = "-" + money;
+                }else {
+                    money = "+" + money;
+                }
+                // adding to todo list
+                mitemList.add(new DetailsItem(type, money, date));
+            } while (cursor.moveToNext());
         }
-        return id;
+        cursor.close();
+        return mitemList;
     }
 }
 

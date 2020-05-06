@@ -10,11 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.accountbook.MainActivity;
+import com.example.accountbook.MyApplication;
 import com.example.accountbook.R;
-import com.example.accountbook.service.DatabaseHelper;
-import com.example.accountbook.service.DetailService;
+import com.example.accountbook.service.UserService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,10 +86,10 @@ public class Details extends Fragment {
     }
 
     private void initRecyclerView() {
-        DetailService details = new DetailService(this.getActivity());
+        UserService details = new UserService(MyApplication.getInstance());
         List<DetailsItem> mitemList = new ArrayList<>();
-        //mitemList = details.getData(MainActivity.userId);
-        mitemList.add(new DetailsItem("WeChat", "+200", "2020/5/5"));
+        //Toast.makeText(MyApplication.getInstance(), temp, Toast.LENGTH_LONG).show();
+        mitemList = details.getData();
         if(mitemList == null){
             return;
         }

@@ -11,6 +11,10 @@ public class DetailsItem {
         this.makeDate = makeDate;
     }
 
+    public DetailsItem() {
+
+    }
+
     public String getType() {
         return type;
     }
