@@ -3,10 +3,11 @@ package com.example.accountbook.service;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
+import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.accountbook.User;
-import com.example.accountbook.ui.home.DetailsItem;
+import com.example.accountbook.model.Category;
+import com.example.accountbook.model.User;
+import com.example.accountbook.model.DetailsItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +34,7 @@ public class UserService {
         }
         return false;
     }
+
     public boolean register(User user){
         SQLiteDatabase sdb = dbHelper.getReadableDatabase();
         Cursor cursor = sdb.query("user", null, "username=?", new String[]{user.getUsername()}, null, null, null);
@@ -47,6 +49,7 @@ public class UserService {
             return false;
         }
     }
+
     public List<DetailsItem> getData(){
         List<DetailsItem> mitemList = new ArrayList<>();
         SQLiteDatabase sdb = dbHelper.getReadableDatabase();
@@ -71,6 +74,44 @@ public class UserService {
         }
         cursor.close();
         return mitemList;
+    }
+
+    public List<Category> getCategory(){
+        List<Category> mitemList = new ArrayList<>();
+        SQLiteDatabase sdb = dbHelper.getReadableDatabase();
+        String sql = "select * from flow_type";
+        Cursor cursor = sdb.rawQuery(sql, null);
+        if (cursor.moveToFirst()) {
+            String name;
+            Integer id;
+            do {
+                name = cursor.getString(cursor.getColumnIndex("type_name"));
+                id = cursor.getInt(cursor.getColumnIndex("id"));
+                // adding to todo list
+                mitemList.add(new Category(name, false, id));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return mitemList;
+    }
+
+    public Integer getUserID(){
+        Integer temp = null;
+        SQLiteDatabase sdb = dbHelper.getReadableDatabase();
+        String sql = "select id from user where username=?";
+        Cursor cursor = sdb.rawQuery(sql, new String[]{username});
+        if (cursor.moveToFirst()){
+            temp = cursor.getInt(cursor.getColumnIndex("id"));
+        }
+        cursor.close();
+        return temp;
+    }
+
+    public void insertFlow(Integer user_id, Integer type, String money, String note, String makeDate, Boolean isCost, String location){
+        SQLiteDatabase sdb = dbHelper.getReadableDatabase();
+        String sql = "insert into costDetails(user_id, type, money, note, makeDate, isCost, location) values(?,?,?,?,?,?,?)";
+        Object obj[] = {user_id, type, money, note, makeDate, isCost, location};
+        sdb.execSQL(sql, obj);
     }
 }
 

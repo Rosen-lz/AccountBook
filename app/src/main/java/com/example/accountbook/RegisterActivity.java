@@ -14,6 +14,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.accountbook.model.User;
 import com.example.accountbook.service.UserService;
 
 import java.util.Calendar;
@@ -34,7 +35,7 @@ public class RegisterActivity extends AppCompatActivity {
         username=(EditText) findViewById(R.id.register_userName);
         password=(EditText) findViewById(R.id.register_password);
         birthday=(TextView) findViewById(R.id.register_birthday);
-        sex=(RadioGroup) findViewById(R.id.sex);
+        sex=(RadioGroup) findViewById(R.id.add_type);
         register=(Button) findViewById(R.id.button_register2);
 
         //connect to the SQLite

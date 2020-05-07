@@ -1,4 +1,4 @@
-package com.example.accountbook.ui.home;
+package com.example.accountbook.model;
 
 public class DetailsItem {
     private String type;

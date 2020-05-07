@@ -9,12 +9,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
-import android.widget.Toast;
 
-import com.example.accountbook.MainActivity;
 import com.example.accountbook.MyApplication;
 import com.example.accountbook.R;
+import com.example.accountbook.adapter.DetailsAdapter;
+import com.example.accountbook.model.DetailsItem;
 import com.example.accountbook.service.UserService;
 
 import java.util.ArrayList;
@@ -88,7 +87,6 @@ public class Details extends Fragment {
     private void initRecyclerView() {
         UserService details = new UserService(MyApplication.getInstance());
         List<DetailsItem> mitemList = new ArrayList<>();
-        //Toast.makeText(MyApplication.getInstance(), temp, Toast.LENGTH_LONG).show();
         mitemList = details.getData();
         if(mitemList == null){
             return;

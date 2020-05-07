@@ -9,7 +9,6 @@ import android.widget.Toast;
 
 import com.example.accountbook.service.UserService;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
@@ -32,8 +31,9 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
 
+        // initiate the username;
         UserService user = new UserService(this);
-        Intent intent = getIntent();
+        final Intent intent = getIntent();
         UserService.setUsername(intent.getStringExtra("username"));
 
         //实现toolbar替换默认的Actionbar
@@ -43,9 +43,9 @@ public class MainActivity extends AppCompatActivity{
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public void onClick(View v) {
+                Intent intent1 = new Intent(MainActivity.this, InsertFlowActivity.class);
+                startActivity(intent1);
             }
         });
 
@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity{
         //使得drawer显示
         NavigationUI.setupWithNavController(navigationView, navController);
     }
+
 
     @Override
     public void onBackPressed() {

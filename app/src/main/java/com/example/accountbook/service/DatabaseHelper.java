@@ -19,7 +19,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("create table if not exists flow_type(id INTEGER primary key autoincrement, type_name STRING not null)");
         db.execSQL("create table if not exists costDetail(id INTEGER primary key autoincrement," +
                 "user_id INTEGER not null, type INTEGER not null, money STRING not null," +
-                "note STRING, makeDate STRING not null, isCost BOOLEAN not null)");
+                "note STRING, makeDate STRING not null, isCost BOOLEAN not null, location STRING not null)");
 
     }
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
