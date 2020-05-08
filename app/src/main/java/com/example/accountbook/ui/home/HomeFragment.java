@@ -21,9 +21,8 @@ import com.google.android.material.tabs.TabLayoutMediator;
 public class HomeFragment extends Fragment {
 
     private ViewPager2 pager;
-
     private TabLayout tabLayout;
-
+    private Fragment details, charts, group;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
             ViewGroup container, Bundle savedInstanceState) {
@@ -38,11 +37,14 @@ public class HomeFragment extends Fragment {
             public Fragment createFragment(int position) {
                 switch (position) {
                     case 0:
-                        return new Details();
+                        details = new Details();
+                        return details;
                     case 1:
-                        return new Charts();
+                        charts = new Charts();
+                        return charts;
                     default:
-                        return new Group();
+                        group = new Group();
+                        return group;
                 }
             }
             @Override

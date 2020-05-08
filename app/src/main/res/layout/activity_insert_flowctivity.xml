@@ -11,7 +11,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="10dp">
 
         <TextView
             android:id="@+id/textView"
@@ -84,6 +84,7 @@
             android:layout_width="203dp"
             android:layout_height="40dp"
             android:layout_margin="4dp"
+            android:gravity="center_vertical"
             android:hint="Money"
             android:inputType="number|numberDecimal"
             app:layout_constraintEnd_toEndOf="parent"
@@ -156,22 +157,53 @@
             android:layout_width="100dp"
             android:layout_height="45dp"
             android:layout_marginLeft="25dp"
+            android:layout_centerVertical="true"
+            android:onClick="getLocation"
             android:text="location"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
 
-        <EditText
+        <TextView
             android:id="@+id/add_location"
-            android:layout_width="230dp"
-            android:layout_height="40dp"
-            android:layout_centerVertical="true"
+            android:layout_width="253dp"
+            android:layout_height="90dp"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="40dp"
-            android:hint="Please click ot enter">
+            android:layout_centerVertical="true"
+            android:layout_marginRight="17dp"
+            android:gravity="center_vertical"
+            android:hint="Please click ot get the location"
+            android:inputType="textMultiLine">
 
-        </EditText>
+        </TextView>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+
+        <Button
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="30dp"
+            android:gravity="center"
+            android:onClick="selectDate"
+            android:text="Time"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/add_makeDate"
+            android:layout_width="220dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="50dp"
+            android:gravity="center_vertical"
+            android:inputType="date"
+            android:hint="YY/MM/DD + [HH:MM]" />
     </RelativeLayout>
 
     <TextView
@@ -179,7 +211,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:gravity="center"
-        android:text="The time when you add this flow will be recorded." />
+        android:text="Please click to get the time or enter correctly"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:text="If you do not select the time, we will automatically generate it." />
 
     <RelativeLayout
         android:id="@+id/constraintLayout2"

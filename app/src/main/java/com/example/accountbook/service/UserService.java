@@ -109,7 +109,7 @@ public class UserService {
 
     public void insertFlow(Integer user_id, Integer type, String money, String note, String makeDate, Boolean isCost, String location){
         SQLiteDatabase sdb = dbHelper.getReadableDatabase();
-        String sql = "insert into costDetails(user_id, type, money, note, makeDate, isCost, location) values(?,?,?,?,?,?,?)";
+        String sql = "insert into costDetail(user_id, type, money, note, makeDate, isCost, location) values(?,?,?,?,?,?,?)";
         Object obj[] = {user_id, type, money, note, makeDate, isCost, location};
         sdb.execSQL(sql, obj);
     }

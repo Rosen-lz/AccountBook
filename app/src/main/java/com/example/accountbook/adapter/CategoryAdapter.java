@@ -23,11 +23,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     private Context context;
     private boolean isChecked = false;
     private View view;
-    private Integer id = null;
-
-    public Integer getCategoryID(){
-        return id;
-    }
 
     public CategoryAdapter(Context context, List<Category> itemsList, View view){
         this.context = context;
@@ -46,7 +41,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     public void onBindViewHolder(@NonNull final CategoryAdapter.ViewHolder holder, final int position) {
         holder.itemsNameTextView.setText(itemsList.get(position).getName());
         // 需要更改
-        holder.imageView.setImageResource(R.mipmap.icon_unselected);
+        holder.imageView.setImageResource(itemsList.get(position).getChecked() ? R.mipmap.icon_selected : R.mipmap.icon_unselected);
         holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,7 +51,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
                     itemsList.get(position).setChecked(true);
                     TextView temp = view.findViewById(R.id.add_category_name);
                     temp.setText(itemsList.get(position).getName());
-                    id = itemsList.get(position).getId();
+                    InsertFlowActivity.setCategory_id(itemsList.get(position).getId());
                     return;
                 }
                 if (itemsList.get(position).getChecked()){
@@ -65,13 +60,13 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
                     itemsList.get(position).setChecked(false);
                     TextView temp = view.findViewById(R.id.add_category_name);
                     temp.setText("Please select");
+                    InsertFlowActivity.setCategory_id(null);
                     return;
                 }
 //                holder.imageView.setImageResource(itemsList.get(position).getChecked() ? R.mipmap.icon_selected : R.mipmap.icon_unselected);
             }
         });
     }
-
 
     @Override
     public int getItemCount() {

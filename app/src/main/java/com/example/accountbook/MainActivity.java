@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.widget.Toast;
 
 import com.example.accountbook.service.UserService;
+import com.example.accountbook.ui.home.HomeFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
@@ -33,8 +34,8 @@ public class MainActivity extends AppCompatActivity{
 
         // initiate the username;
         UserService user = new UserService(this);
-        final Intent intent = getIntent();
-        UserService.setUsername(intent.getStringExtra("username"));
+        Intent intent1 = getIntent();
+        UserService.setUsername(intent1.getStringExtra("username"));
 
         //实现toolbar替换默认的Actionbar
         setSupportActionBar(toolbar);
@@ -44,8 +45,8 @@ public class MainActivity extends AppCompatActivity{
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent1 = new Intent(MainActivity.this, InsertFlowActivity.class);
-                startActivity(intent1);
+                Intent intent2 = new Intent(MainActivity.this, InsertFlowActivity.class);
+                startActivityForResult(intent2, 1);
             }
         });
 
@@ -66,6 +67,13 @@ public class MainActivity extends AppCompatActivity{
         NavigationUI.setupWithNavController(navigationView, navController);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==1 && resultCode==RESULT_OK){
+            //InsertFlowActivity
+        }
+    }
 
     @Override
     public void onBackPressed() {
