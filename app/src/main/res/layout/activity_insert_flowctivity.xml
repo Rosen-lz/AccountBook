@@ -203,7 +203,7 @@
             android:layout_marginRight="50dp"
             android:gravity="center_vertical"
             android:inputType="date"
-            android:hint="YY/MM/DD + [HH:MM]" />
+            android:hint="YY/MM/DD" />
     </RelativeLayout>
 
     <TextView

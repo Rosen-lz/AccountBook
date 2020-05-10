@@ -8,7 +8,6 @@ import android.view.Menu;
 import android.widget.Toast;
 
 import com.example.accountbook.service.UserService;
-import com.example.accountbook.ui.home.HomeFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
@@ -57,7 +56,7 @@ public class MainActivity extends AppCompatActivity{
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
+                R.id.nav_home, R.id.nav_setting, R.id.nav_about)
                 .setDrawerLayout(drawer)
                 .build();
 

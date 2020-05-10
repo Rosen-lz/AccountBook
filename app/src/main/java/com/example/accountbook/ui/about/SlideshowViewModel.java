@@ -1,4 +1,4 @@
-package com.example.accountbook.ui.slideshow;
+package com.example.accountbook.ui.about;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

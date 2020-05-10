@@ -77,7 +77,6 @@ public class InsertFlowActivity extends AppCompatActivity {
         userId = user.getUserID();
 
         mitemList = user.getCategory();
-//        user.insertFlow(1,2,"300","hello","2020/5/8", false, "China");
 
         LinearLayout linearLayout = findViewById(R.id.add_container);
         linearLayout.setOnClickListener(new View.OnClickListener() {
@@ -107,7 +106,7 @@ public class InsertFlowActivity extends AppCompatActivity {
                 } else{
                     String makeDate;
                     if (add_date.getText().toString().trim().equals("")){
-                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");// HH:mm:ss");
                         Date date = new Date(System.currentTimeMillis());
                         makeDate = simpleDateFormat.format(date);
                     }else {
@@ -200,7 +199,7 @@ public class InsertFlowActivity extends AppCompatActivity {
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 String text = "You have selected：" + year + "/" + (month + 1) + "/" + dayOfMonth;
                 Toast.makeText( InsertFlowActivity.this, text, Toast.LENGTH_SHORT ).show();
-                add_date.setText(year + "/" + (month + 1) + "/" + dayOfMonth);
+                add_date.setText(year + "/" + String.format("%02d", month+1) + "/" + String.format("%02d", dayOfMonth));
             }
         }
                 ,calendar.get(Calendar.YEAR)

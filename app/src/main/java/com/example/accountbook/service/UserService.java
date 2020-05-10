@@ -6,9 +6,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.accountbook.model.Category;
+import com.example.accountbook.model.Percentage;
 import com.example.accountbook.model.User;
 import com.example.accountbook.model.DetailsItem;
 
+import java.math.BigDecimal;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -112,6 +115,36 @@ public class UserService {
         String sql = "insert into costDetail(user_id, type, money, note, makeDate, isCost, location) values(?,?,?,?,?,?,?)";
         Object obj[] = {user_id, type, money, note, makeDate, isCost, location};
         sdb.execSQL(sql, obj);
+    }
+
+    public List<Percentage> getPieChartData(String isCost, String Year_Month){
+        SQLiteDatabase sdb = dbHelper.getReadableDatabase();
+        List<Percentage> data = new ArrayList<>();
+        Integer userId = this.getUserID();
+        String sql = "select x.money, y.type_name from costDetail x, flow_type y where x.user_id=? and x.isCost=? " +
+                "and x.makeDate like ? and y.id=x.type";
+        Cursor cursor = sdb.rawQuery(sql, new String[]{userId.toString(), isCost, "%"+Year_Month+"%"});
+        double total = 0;
+        if (cursor.moveToFirst()) {
+            String label, money;
+            Double number;
+            do {
+                money = cursor.getString(cursor.getColumnIndex("money"));
+                number = Double.parseDouble(money);
+                total += number;
+                label = cursor.getString(cursor.getColumnIndex("type_name"));
+                data.add(new Percentage(label, number));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+
+        for (Percentage temp: data){
+            Double percentage = (temp.getValue()/total) * 100;
+            BigDecimal b = new BigDecimal(percentage);
+            float d = (float)b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+            temp.setPercentage(d);
+        }
+        return data;
     }
 }
 
