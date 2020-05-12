@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import com.example.accountbook.MyApplication;
 import com.example.accountbook.R;
 import com.example.accountbook.adapter.DetailsAdapter;
-import com.example.accountbook.model.DetailsItem;
+import com.example.accountbook.model.FlowData;
 import com.example.accountbook.service.UserService;
 
 import java.util.ArrayList;
@@ -86,14 +86,13 @@ public class Details extends Fragment {
 
     private void initRecyclerView() {
         UserService details = new UserService(MyApplication.getInstance());
-        List<DetailsItem> mitemList = new ArrayList<>();
-        mitemList = details.getData();
+        List<FlowData> mitemList = details.getData();
         if(mitemList == null){
             return;
         }
-        mAdapter = new DetailsAdapter(mitemList, getActivity());
+        mAdapter = new DetailsAdapter(mitemList, getContext());
         itemRecyclerView.setAdapter(mAdapter);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         itemRecyclerView.setLayoutManager(layoutManager);
     }
 }

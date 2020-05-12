@@ -1,18 +1,30 @@
 package com.example.accountbook.model;
 
-public class DetailsItem {
+public class FlowData {
     private String type;
     private String money;
     private String makeDate;
+    private boolean isCost;
 
-    public DetailsItem(String type, String money, String makeDate) {
+    public FlowData(String type, String money, String makeDate) {
         this.type = type;
         this.money = money;
         this.makeDate = makeDate;
     }
 
-    public DetailsItem() {
+    public FlowData() {
 
+    }
+
+    public FlowData(String type, String money, String makeDate, boolean isCost) {
+        this.type = type;
+        this.money = money;
+        this.makeDate = makeDate;
+        this.isCost = isCost;
+    }
+
+    public boolean isCost() {
+        return isCost;
     }
 
     public String getType() {

@@ -10,17 +10,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.accountbook.R;
-import com.example.accountbook.model.DetailsItem;
+import com.example.accountbook.model.FlowData;
 
 import java.util.List;
 
 public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.ViewHolder> {
     //store a member variable for the News
-    private List<DetailsItem> itemsList;
+    private List<FlowData> itemsList;
     private Context context;
 
     // provide a suitable constructor
-    public DetailsAdapter(List<DetailsItem> itemsList, Context context){
+    public DetailsAdapter(List<FlowData> itemsList, Context context){
         this.context = context;
         this.itemsList = itemsList;
     }
@@ -56,6 +56,6 @@ public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return itemsList.size();
+        return itemsList==null ? 0 : itemsList.size();
     }
 }

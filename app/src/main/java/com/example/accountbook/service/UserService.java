@@ -3,15 +3,13 @@ package com.example.accountbook.service;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.accountbook.model.Category;
 import com.example.accountbook.model.Percentage;
 import com.example.accountbook.model.User;
-import com.example.accountbook.model.DetailsItem;
+import com.example.accountbook.model.FlowData;
 
 import java.math.BigDecimal;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +22,7 @@ public class UserService {
     private static String username = null;
     private DatabaseHelper dbHelper;
     public UserService(Context context){
-        dbHelper=new DatabaseHelper(context);
+        dbHelper = new DatabaseHelper(context);
     }
 
     public boolean login(String username,String password){
@@ -53,8 +51,8 @@ public class UserService {
         }
     }
 
-    public List<DetailsItem> getData(){
-        List<DetailsItem> mitemList = new ArrayList<>();
+    public List<FlowData> getData(){
+        List<FlowData> mitemList = new ArrayList<>();
         SQLiteDatabase sdb = dbHelper.getReadableDatabase();
         String sql = "select * from costDetail x, flow_type y, user z where x.type=y.id and z.id=x.user_id and z.username=?";
         Cursor cursor = sdb.rawQuery(sql, new String[]{username});
@@ -67,16 +65,39 @@ public class UserService {
                 date = cursor.getString(cursor.getColumnIndex("makeDate"));
                 type = cursor.getString(cursor.getColumnIndex("type_name"));
                 if (isCost){
-                    money = "-" + money;
+                    money = "- " + money;
                 }else {
-                    money = "+" + money;
+                    money = "+ " + money;
                 }
                 // adding to todo list
-                mitemList.add(new DetailsItem(type, money, date));
+                mitemList.add(new FlowData(type, money, date));
             } while (cursor.moveToNext());
         }
         cursor.close();
         return mitemList;
+    }
+
+    public List<FlowData> getMonthDate(String Year_Month){
+        List<FlowData> mitemList = new ArrayList<>();
+        SQLiteDatabase sdb = dbHelper.getReadableDatabase();
+        Integer userId = this.getUserID();
+        String sql = "select * from costDetail x, flow_type y where x.type=y.id and x.user_id=? and x.makeDate like ?";
+        Cursor cursor = sdb.rawQuery(sql, new String[]{userId.toString(), "%"+Year_Month+"%"});
+        if (cursor.moveToFirst()) {
+            Boolean isCost;
+            String money, date, type;
+            do {
+                isCost = cursor.getString(cursor.getColumnIndex("isCost")).equals("1");
+                money = cursor.getString(cursor.getColumnIndex("money"));
+                date = cursor.getString(cursor.getColumnIndex("makeDate"));
+                type = cursor.getString(cursor.getColumnIndex("type_name"));
+                // adding to todo list
+                mitemList.add(new FlowData(type, money, date, isCost));
+            } while (cursor.moveToNext());
+            cursor.close();
+            return mitemList;
+        }
+        return null;
     }
 
     public List<Category> getCategory(){
@@ -135,16 +156,17 @@ public class UserService {
                 label = cursor.getString(cursor.getColumnIndex("type_name"));
                 data.add(new Percentage(label, number));
             } while (cursor.moveToNext());
+            for (Percentage temp: data){
+                Double percentage = (temp.getValue()/total) * 100;
+                BigDecimal b = new BigDecimal(percentage);
+                float d = (float)b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                temp.setPercentage(d);
+            }
+            cursor.close();
+            return data;
         }
         cursor.close();
-
-        for (Percentage temp: data){
-            Double percentage = (temp.getValue()/total) * 100;
-            BigDecimal b = new BigDecimal(percentage);
-            float d = (float)b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-            temp.setPercentage(d);
-        }
-        return data;
+        return null;
     }
 }
 

@@ -96,6 +96,9 @@ public class Charts extends Fragment {
                         String text = "You have selected：" + year + "/" + String.format("%02d", month + 1);
                         Toast.makeText(getContext(), text, Toast.LENGTH_SHORT ).show();
                         date.setText(year + "/" + String.format("%02d", month+1));
+
+                        isCost = true;
+                        readyToDisplayPieChart();
                     }
                 }
                         ,calendar.get(Calendar.YEAR)
@@ -110,16 +113,20 @@ public class Charts extends Fragment {
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isCost){
-                    showPieChart(mPieChart, getPieChartData("1", date.getText().toString().trim()));
-                    isCost = false;
-                }else{
-                    showPieChart(mPieChart, getPieChartData("0", date.getText().toString().trim()));
-                    isCost = true;
-                }
+                readyToDisplayPieChart();
             }
         });
         return view;
+    }
+
+    private void readyToDisplayPieChart(){
+        if (isCost){
+            showPieChart(mPieChart, getPieChartData("1", date.getText().toString().trim()));
+            isCost = false;
+        }else{
+            showPieChart(mPieChart, getPieChartData("0", date.getText().toString().trim()));
+            isCost = true;
+        }
     }
 
     private List<PieEntry> getPieChartData(String isCost, String date) {
@@ -127,11 +134,25 @@ public class Charts extends Fragment {
         List<Percentage> dataList = user.getPieChartData(isCost, date);
 //        List<String> dataList = "数据库或网络获取数据"
         List<PieEntry> mPie = new ArrayList<>();
-
-        for (Percentage temp : dataList) {
-            PieEntry pieEntry = new PieEntry(temp.getPercentage(), temp.getLabel());
-            //pieEntry.setX();
-            mPie.add(pieEntry);
+        Double total=0.0;
+        if(dataList == null){
+            Toast.makeText(getContext(), "No data in this month", Toast.LENGTH_LONG).show();
+            cost.setText("0.0");
+            income.setText("0.0");
+        }else{
+            for (Percentage temp : dataList) {
+                PieEntry pieEntry = new PieEntry(temp.getPercentage(), temp.getLabel());
+                total += temp.getValue();
+                //pieEntry.setX();
+                mPie.add(pieEntry);
+            }
+            if (isCost.equals("1")){
+                cost.setText(total.toString());
+                income.setText("0.0");
+            }else{
+                cost.setText("0.0");
+                income.setText(total.toString());
+            }
         }
         return mPie;
     }
