@@ -44,4 +44,5 @@ dependencies {
     implementation files('libs/SQLiteStudioRemote.jar')
     // import this to draw pie chart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-21'
 }

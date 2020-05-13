@@ -15,6 +15,9 @@ import com.example.accountbook.R;
 import com.example.accountbook.adapter.DetailsAdapter;
 import com.example.accountbook.model.FlowData;
 import com.example.accountbook.service.UserService;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,6 +82,20 @@ public class Details extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_details, container, false);
+        RefreshLayout refreshLayout = (RefreshLayout)view.findViewById(R.id.details_refreshLayout);
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                refreshlayout.finishRefresh(2000/*,false*/);//传入false表示刷新失败
+                initRecyclerView();
+            }
+        });
+//        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+//            @Override
+//            public void onLoadMore(RefreshLayout refreshlayout) {
+//                refreshlayout.finishLoadMore(2000/*,false*/);//传入false表示加载失败
+//            }
+//        });
         itemRecyclerView = view.findViewById(R.id.recycler_details);
         initRecyclerView();
         return view;

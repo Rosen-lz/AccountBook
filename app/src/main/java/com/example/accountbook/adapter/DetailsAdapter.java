@@ -58,4 +58,9 @@ public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.ViewHold
     public int getItemCount() {
         return itemsList==null ? 0 : itemsList.size();
     }
+
+    @Override
+    public int getItemViewType(int position) {
+        return super.getItemViewType(position);
+    }
 }

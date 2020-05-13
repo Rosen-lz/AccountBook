@@ -75,6 +75,7 @@ public class Group extends Fragment {
         cost = view.findViewById(R.id.group_cost);
         income = view.findViewById(R.id.group_income);
         itemRecyclerView = view.findViewById(R.id.group_recycler);
+        // Calendar
         final Calendar calendar= Calendar.getInstance();
         date.setText(calendar.get(Calendar.YEAR)+"/"+String.format("%02d",calendar.get(Calendar.MONTH)+1));
         linearLayout.setOnClickListener(new View.OnClickListener() {
