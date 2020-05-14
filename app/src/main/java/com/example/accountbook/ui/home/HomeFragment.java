@@ -22,7 +22,6 @@ public class HomeFragment extends Fragment {
 
     private ViewPager2 pager;
     private TabLayout tabLayout;
-    private Fragment details, charts, group;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
             ViewGroup container, Bundle savedInstanceState) {
@@ -37,14 +36,11 @@ public class HomeFragment extends Fragment {
             public Fragment createFragment(int position) {
                 switch (position) {
                     case 0:
-                        details = new Details();
-                        return details;
+                        return new Details();
                     case 1:
-                        charts = new Charts();
-                        return charts;
+                        return new Charts();
                     default:
-                        group = new Group();
-                        return group;
+                        return new Group();
                 }
             }
             @Override

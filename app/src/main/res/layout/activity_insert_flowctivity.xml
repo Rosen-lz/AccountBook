@@ -122,7 +122,7 @@
             android:layout_marginLeft="16dp"
             android:hint="Please enter brief description..."
             android:inputType="textMultiLine"
-            android:maxLines="2"
+            android:maxLines="4"
             android:scrollHorizontally="false"
             android:singleLine="false"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -222,23 +222,14 @@
         android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
         android:layout_marginTop="20dp">
 
         <Button
             android:id="@+id/button_insert_ok"
             android:layout_width="130dp"
             android:layout_height="45dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="50dp"
             android:text="@android:string/ok" />
-
-        <Button
-            android:id="@+id/button_insert_cancel"
-            android:layout_width="130dp"
-            android:layout_height="45dp"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="50dp"
-            android:text="@android:string/cancel" />
 
     </RelativeLayout>
 </LinearLayout>

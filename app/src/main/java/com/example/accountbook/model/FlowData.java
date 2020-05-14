@@ -1,23 +1,28 @@
 package com.example.accountbook.model;
 
 public class FlowData {
-    private String type;
+    private String category;
     private String money;
     private String makeDate;
+    private String note;
+    private String location;
     private boolean isCost;
 
-    public FlowData(String type, String money, String makeDate) {
-        this.type = type;
+    public FlowData(String category, String money, String makeDate, String note, String location, boolean isCost) {
+        this.category = category;
         this.money = money;
         this.makeDate = makeDate;
+        this.note = note;
+        this.location = location;
+        this.isCost = isCost;
     }
 
     public FlowData() {
 
     }
 
-    public FlowData(String type, String money, String makeDate, boolean isCost) {
-        this.type = type;
+    public FlowData(String category, String money, String makeDate, boolean isCost) {
+        this.category = category;
         this.money = money;
         this.makeDate = makeDate;
         this.isCost = isCost;
@@ -27,12 +32,12 @@ public class FlowData {
         return isCost;
     }
 
-    public String getType() {
-        return type;
+    public String getCategory() {
+        return category;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public String getMoney() {
@@ -47,16 +52,20 @@ public class FlowData {
         return makeDate;
     }
 
-    public void setMakeDate(String makeDate) {
-        this.makeDate = makeDate;
-    }
-
     @Override
     public String toString() {
         return "DetailsItem{" +
-                "type='" + type + '\'' +
+                "type='" + category + '\'' +
                 ", money='" + money + '\'' +
                 ", makeDate='" + makeDate + '\'' +
                 '}';
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public String getLocation() {
+        return location;
     }
 }

@@ -1,5 +1,6 @@
 package com.example.accountbook.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,16 +11,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.accountbook.DisplayFlowInfo;
 import com.example.accountbook.MyApplication;
 import com.example.accountbook.R;
 import com.example.accountbook.adapter.DetailsAdapter;
 import com.example.accountbook.model.FlowData;
 import com.example.accountbook.service.UserService;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -97,19 +97,41 @@ public class Details extends Fragment {
 //            }
 //        });
         itemRecyclerView = view.findViewById(R.id.recycler_details);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        itemRecyclerView.setLayoutManager(layoutManager);
         initRecyclerView();
         return view;
     }
 
     private void initRecyclerView() {
         UserService details = new UserService(MyApplication.getInstance());
-        List<FlowData> mitemList = details.getData();
+        final List<FlowData> mitemList = details.getData();
         if(mitemList == null){
+            mAdapter = new DetailsAdapter(null, getContext());
+            itemRecyclerView.setAdapter(mAdapter);
             return;
         }
         mAdapter = new DetailsAdapter(mitemList, getContext());
         itemRecyclerView.setAdapter(mAdapter);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        itemRecyclerView.setLayoutManager(layoutManager);
+
+        mAdapter.setOnItemClickListener(new DetailsAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Intent intent = new Intent(getActivity(), DisplayFlowInfo.class);
+                if (mitemList.get(position).isCost()){
+                    intent.putExtra("type", "Cost");
+                }else{
+                    intent.putExtra("type", "Income");
+                }
+//                Bundle b=new Bundle();
+//                b.putStringArray();
+                intent.putExtra("category", mitemList.get(position).getCategory());
+                intent.putExtra("money", mitemList.get(position).getMoney());
+                intent.putExtra("date", mitemList.get(position).getMakeDate());
+                intent.putExtra("note", mitemList.get(position).getNote());
+                intent.putExtra("location", mitemList.get(position).getLocation());
+                startActivity(intent);
+            }
+        });
     }
 }

@@ -75,18 +75,20 @@ public class Group extends Fragment {
         cost = view.findViewById(R.id.group_cost);
         income = view.findViewById(R.id.group_income);
         itemRecyclerView = view.findViewById(R.id.group_recycler);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        itemRecyclerView.setLayoutManager(layoutManager);
         // Calendar
         final Calendar calendar= Calendar.getInstance();
-        date.setText(calendar.get(Calendar.YEAR)+"/"+String.format("%02d",calendar.get(Calendar.MONTH)+1));
+        date.setText(calendar.get(Calendar.YEAR)+"-"+String.format("%02d",calendar.get(Calendar.MONTH)+1));
         linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DatePickerDialog mDialog = new DatePickerDialog(getContext(), AlertDialog.THEME_HOLO_LIGHT, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        String text = "You have selected：" + year + "/" + String.format("%02d", month + 1);
+                        String text = "You have selected：" + year + "-" + String.format("%02d", month + 1);
                         Toast.makeText(getContext(), text, Toast.LENGTH_SHORT ).show();
-                        date.setText(year + "/" + String.format("%02d", month+1));
+                        date.setText(year + "-" + String.format("%02d", month+1));
                         initRecyclerView();;
                     }
                 }
@@ -98,6 +100,8 @@ public class Group extends Fragment {
                 //((ViewGroup) ((ViewGroup) mDialog.getDatePicker().getChildAt(0)).getChildAt(0)).getChildAt(2).setVisibility(View.GONE);
             }
         });
+
+        initRecyclerView();;
         return view;
     }
 
@@ -108,6 +112,8 @@ public class Group extends Fragment {
             Toast.makeText(getContext(), "No data in this month", Toast.LENGTH_LONG).show();
             cost.setText("0.0");
             income.setText("0.0");
+
+            itemRecyclerView.setAdapter(new GroupAdapter(getContext(), null));
             return;
         }
 
@@ -119,27 +125,32 @@ public class Group extends Fragment {
             String makeDate = temp.getMakeDate();
             String money = temp.getMoney();
             // calculate the sum of cost and income
+            Double cost = 0.0;
+            Double income = 0.0;
+            String type;
             if (temp.isCost()){
-                total_cost += Double.parseDouble(money);
+                cost = Double.parseDouble(money);
+                total_cost += cost;
                 money = "- " + money;
+                type = "Cost";
             }else{
-                total_income += Double.parseDouble(money);
+                income = Double.parseDouble(money);
+                total_income += income;
                 money = "+ " + money;
+                type = "Income";
             }
             // initialize the recyclerView data
             if (day.contains(makeDate)){
                 int position = day.indexOf(makeDate);
-                data.get(position).addMember(temp.getType(), money);
+                data.get(position).addMember(cost, income, type, temp.getCategory(), money, temp.getNote(), temp.getLocation());
             }else{
                 day.add(makeDate);
-                data.add(new DayGroup(makeDate, temp.getType(), money));
+                data.add(new DayGroup(cost, income, makeDate, type, temp.getCategory(), money, temp.getNote(), temp.getLocation()));
             }
         }
         cost.setText(total_cost.toString());
         income.setText(total_income.toString());
 
         itemRecyclerView.setAdapter(new GroupAdapter(getContext(), data));
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        itemRecyclerView.setLayoutManager(layoutManager);
     }
 }

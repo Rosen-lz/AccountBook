@@ -16,10 +16,21 @@ import com.example.accountbook.model.DayGroup;
 public class GroupItemAdapter extends RecyclerView.Adapter<GroupItemAdapter.ViewHolder>{
     private DayGroup data;
     private Context context;
+    private OnItemClickListener mOnItemClickListener;
 
     public GroupItemAdapter(Context context, DayGroup data) {
         this.context = context;
         this.data = data;
+    }
+
+    //define a interface to implement the itemOnClick function
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position);
+    }
+
+    //allow the main activity to use this interface
+    public void setOnItemClickListener(OnItemClickListener mOnItemClickListener) {
+        this.mOnItemClickListener = mOnItemClickListener;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -43,12 +54,25 @@ public class GroupItemAdapter extends RecyclerView.Adapter<GroupItemAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull GroupItemAdapter.ViewHolder holder, int position) {
-        holder.type.setText(data.getType(position));
+        holder.type.setText(data.getCategory(position));
         holder.money.setText(data.getMoney(position));
+        setEvent(holder);
     }
 
     @Override
     public int getItemCount() {
         return data.getMemberCount();
+    }
+
+    private void setEvent(final ViewHolder holder) {
+        if (mOnItemClickListener != null){
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int layoutPosition = holder.getLayoutPosition();
+                    mOnItemClickListener.onItemClick(holder.itemView, layoutPosition);
+                }
+            });
+        }
     }
 }

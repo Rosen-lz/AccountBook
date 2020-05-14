@@ -76,9 +76,9 @@ public class RegisterActivity extends AppCompatActivity {
         new DatePickerDialog( this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                String text = "You have selected：" + year + "/" + (month + 1) + "/" + dayOfMonth;
+                String text = "You have selected：" + year + "-" + (month + 1) + "-" + dayOfMonth;
                 Toast.makeText( RegisterActivity.this, text, Toast.LENGTH_SHORT ).show();
-                birthday.setText(year + "/" + (month + 1) + "/" + dayOfMonth);
+                birthday.setText(year + "-" + (month + 1) + "-" + dayOfMonth);
             }
         }
                 ,calendar.get(Calendar.YEAR)

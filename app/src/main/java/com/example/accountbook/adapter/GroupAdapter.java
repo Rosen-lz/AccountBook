@@ -1,6 +1,7 @@
 package com.example.accountbook.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.accountbook.DisplayFlowInfo;
 import com.example.accountbook.R;
 import com.example.accountbook.model.DayGroup;
 
@@ -48,11 +50,27 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull GroupAdapter.ViewHolder holder, int position) {
-        DayGroup temp = itemsList.get(position);
+    public void onBindViewHolder(@NonNull GroupAdapter.ViewHolder holder, final int dayPosition) {
+        final DayGroup temp = itemsList.get(dayPosition);
         holder.date.setText(temp.getDay());
+        GroupItemAdapter groupItemAdapter = new GroupItemAdapter(context, temp);
+        holder.recyclerView.setAdapter(groupItemAdapter);
+        groupItemAdapter.setOnItemClickListener(new GroupItemAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
 
-        holder.recyclerView.setAdapter(new GroupItemAdapter(context, temp));
+                Intent intent = new Intent(context, DisplayFlowInfo.class);
+//                Bundle b=new Bundle();
+//                b.putStringArray();
+                intent.putExtra("type", itemsList.get(dayPosition).getType(position));
+                intent.putExtra("category", itemsList.get(dayPosition).getCategory(position));
+                intent.putExtra("money", itemsList.get(dayPosition).getMoney(position).substring(2));
+                intent.putExtra("date", temp.getDay());
+                intent.putExtra("note", itemsList.get(dayPosition).getNote(position));
+                intent.putExtra("location", itemsList.get(dayPosition).getLocation(position));
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

@@ -6,26 +6,24 @@ import java.util.List;
 public class DayGroup {
     private List<Members> members = new ArrayList<>();
     private String day;
+    private Double total_income = 0.0;
+    private Double total_cost = 0.0;
 
     public String getDay() {
         return day;
     }
 
-    public DayGroup(String day, String type, String money){
+    public DayGroup(Double cost, Double income, String day, String type, String category, String money, String note, String location){
         this.day = day;
-        members.add(new Members(type, money));
+        total_cost = cost;
+        total_income = income;
+        members.add(new Members(type, category, money, note, location));
     }
 
-    public void addMember(String type, String money){
-        members.add(new Members(type, money));
-    }
-
-    public String getType(int position){
-        return members.get(position).type;
-    }
-
-    public String getMoney(int position){
-        return members.get(position).money;
+    public void addMember(Double cost, Double income, String type, String category, String money, String note, String location){
+        total_income += income;
+        total_cost += cost;
+        members.add(new Members(type, category, money, note, location));
     }
 
     public int getMemberCount(){
@@ -40,12 +38,35 @@ public class DayGroup {
                 '}';
     }
 
-    private class Members{
-        public String type, money;
+    public String getMoney(int position){
+        return members.get(position).money;
+    }
 
-        public Members(String type, String money) {
-            this.type = type;
+    public String getCategory(int position){
+        return members.get(position).category;
+    }
+
+    public String getNote(int position){
+        return members.get(position).note;
+    }
+
+    public String getLocation(int position){
+        return members.get(position).location;
+    }
+
+    public String getType(int position){
+        return members.get(position).type;
+    }
+
+    private class Members{
+        public String category, money, type, location, note;
+
+        public Members(String type, String category, String money, String note, String location) {
+            this.category = category;
             this.money = money;
+            this.type = type;
+            this.location = location;
+            this.note = note;
         }
     }
 }

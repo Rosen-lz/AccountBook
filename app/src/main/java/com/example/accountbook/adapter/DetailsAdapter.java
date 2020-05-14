@@ -16,8 +16,19 @@ import java.util.List;
 
 public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.ViewHolder> {
     //store a member variable for the News
+    private OnItemClickListener mOnItemClickListener;
     private List<FlowData> itemsList;
     private Context context;
+
+    //define a interface to implement the itemOnClick function
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position);
+    }
+
+    //allow the main activity to use this interface
+    public void setOnItemClickListener(OnItemClickListener mOnItemClickListener) {
+        this.mOnItemClickListener = mOnItemClickListener;
+    }
 
     // provide a suitable constructor
     public DetailsAdapter(List<FlowData> itemsList, Context context){
@@ -48,10 +59,15 @@ public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.ViewHold
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         //display the data according to the position
-        holder.itemsNameTextView.setText(itemsList.get(position).getType());
-        holder.itemsMoney.setText(itemsList.get(position).getMoney().toString());
+        holder.itemsNameTextView.setText(itemsList.get(position).getCategory());
+        if (itemsList.get(position).isCost()){
+            holder.itemsMoney.setText("- " + itemsList.get(position).getMoney());
+        }else{
+            holder.itemsMoney.setText("+ " + itemsList.get(position).getMoney());
+        }
         holder.itemsMakeDate.setText(itemsList.get(position).getMakeDate());
         //set the itemView onclick function
+        setEvent(holder);
     }
 
     @Override
@@ -62,5 +78,17 @@ public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.ViewHold
     @Override
     public int getItemViewType(int position) {
         return super.getItemViewType(position);
+    }
+
+    private void setEvent(final ViewHolder holder) {
+        if (mOnItemClickListener != null){
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int layoutPosition = holder.getLayoutPosition();
+                    mOnItemClickListener.onItemClick(holder.itemView, layoutPosition);
+                }
+            });
+        }
     }
 }

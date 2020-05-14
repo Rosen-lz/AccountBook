@@ -20,6 +20,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -64,7 +65,9 @@ public class InsertFlowActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insert_flowctivity);
-        Button btn_cancel = findViewById(R.id.button_insert_cancel);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         Button btn_ok = findViewById(R.id.button_insert_ok);
         Button btn_location = findViewById(R.id.button_location);
         add_location = findViewById(R.id.add_location);
@@ -86,14 +89,6 @@ public class InsertFlowActivity extends AppCompatActivity {
             }
         });
 
-        btn_cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                InsertFlowActivity.this.setResult(RESULT_CANCELED, new Intent(InsertFlowActivity.this, MainActivity.class));
-                InsertFlowActivity.this.finish();
-            }
-        });
-
         btn_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,7 +101,7 @@ public class InsertFlowActivity extends AppCompatActivity {
                 } else{
                     String makeDate;
                     if (add_date.getText().toString().trim().equals("")){
-                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");// HH:mm:ss");
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");// HH:mm:ss");
                         Date date = new Date(System.currentTimeMillis());
                         makeDate = simpleDateFormat.format(date);
                     }else {
@@ -205,5 +200,16 @@ public class InsertFlowActivity extends AppCompatActivity {
                 ,calendar.get(Calendar.YEAR)
                 ,calendar.get(Calendar.MONTH)
                 ,calendar.get(Calendar.DAY_OF_MONTH)).show();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                InsertFlowActivity.this.setResult(RESULT_CANCELED, new Intent(InsertFlowActivity.this, MainActivity.class));
+                InsertFlowActivity.this.finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

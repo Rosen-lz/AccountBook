@@ -85,17 +85,18 @@ public class Charts extends Fragment {
         cost = view.findViewById(R.id.chart_cost);
         income = view.findViewById(R.id.chart_income);
         imageButton = view.findViewById(R.id.chart_button);
+
         final Calendar calendar= Calendar.getInstance();
-        date.setText(calendar.get(Calendar.YEAR)+"/"+String.format("%02d",calendar.get(Calendar.MONTH)+1));
+        date.setText(calendar.get(Calendar.YEAR)+"-"+String.format("%02d",calendar.get(Calendar.MONTH)+1));
         linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DatePickerDialog mDialog = new DatePickerDialog(getContext(), AlertDialog.THEME_HOLO_LIGHT, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        String text = "You have selected：" + year + "/" + String.format("%02d", month + 1);
+                        String text = "You have selected：" + year + "-" + String.format("%02d", month + 1);
                         Toast.makeText(getContext(), text, Toast.LENGTH_SHORT ).show();
-                        date.setText(year + "/" + String.format("%02d", month+1));
+                        date.setText(year + "-" + String.format("%02d", month+1));
 
                         isCost = true;
                         readyToDisplayPieChart();
@@ -116,6 +117,7 @@ public class Charts extends Fragment {
                 readyToDisplayPieChart();
             }
         });
+        readyToDisplayPieChart();
         return view;
     }
 
