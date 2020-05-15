@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -37,6 +38,7 @@ import com.example.accountbook.adapter.CategoryAdapter;
 import com.example.accountbook.model.Category;
 import com.example.accountbook.service.DensityUtil;
 import com.example.accountbook.service.UserService;
+import com.example.accountbook.ui.home.Details;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -113,6 +115,9 @@ public class InsertFlowActivity extends AppCompatActivity {
                     String location = add_location.getText().toString().trim();
                     // insert data
                     user.insertFlow(userId, category_id, money, note, makeDate, isCost_boolean, location);
+                    //call the broadcast receiver in the Details fragment
+                    Intent intent = new Intent(Details.ACTION_TAG);
+                    LocalBroadcastManager.getInstance(InsertFlowActivity.this).sendBroadcast(intent);
                     // back to MainActivity
                     Intent data = new Intent(InsertFlowActivity.this, MainActivity.class);
                     InsertFlowActivity.this.setResult(RESULT_OK, data);
@@ -192,9 +197,9 @@ public class InsertFlowActivity extends AppCompatActivity {
         new DatePickerDialog( this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                String text = "You have selected：" + year + "/" + (month + 1) + "/" + dayOfMonth;
+                String text = "You have selected：" + year + "-" + (month + 1) + "-" + dayOfMonth;
                 Toast.makeText( InsertFlowActivity.this, text, Toast.LENGTH_SHORT ).show();
-                add_date.setText(year + "/" + String.format("%02d", month+1) + "/" + String.format("%02d", dayOfMonth));
+                add_date.setText(year + "-" + String.format("%02d", month+1) + "-" + String.format("%02d", dayOfMonth));
             }
         }
                 ,calendar.get(Calendar.YEAR)

@@ -1,9 +1,13 @@
 package com.example.accountbook.ui.home;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,16 +34,15 @@ import java.util.List;
 public class Details extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     private DetailsAdapter mAdapter;
     private View view;
     private RecyclerView itemRecyclerView;
+    private LocalBroadcastManager broadcastManager;
+    private BroadcastReceiver mReceiver;
+    public static final String ACTION_TAG = "Details-Data-Update";
 
     public Details() {
         // Required empty public constructor
@@ -57,8 +60,6 @@ public class Details extends Fragment {
     public static Details newInstance(String param1, String param2) {
         Details fragment = new Details();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -67,8 +68,6 @@ public class Details extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
@@ -100,6 +99,18 @@ public class Details extends Fragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         itemRecyclerView.setLayoutManager(layoutManager);
         initRecyclerView();
+
+        //register broadcast receiver
+        broadcastManager = LocalBroadcastManager.getInstance(getActivity());
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(ACTION_TAG);
+        mReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent){
+                initRecyclerView();
+            }
+        };
+        broadcastManager.registerReceiver(mReceiver, intentFilter);
         return view;
     }
 
@@ -133,5 +144,11 @@ public class Details extends Fragment {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        broadcastManager.unregisterReceiver(mReceiver);
     }
 }
