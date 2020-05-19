@@ -6,8 +6,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,6 +22,7 @@ import com.example.accountbook.MyApplication;
 import com.example.accountbook.R;
 import com.example.accountbook.adapter.DetailsAdapter;
 import com.example.accountbook.model.FlowData;
+import com.example.accountbook.model.SlideRecyclerView;
 import com.example.accountbook.service.UserService;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -39,7 +42,7 @@ public class Details extends Fragment {
 
     private DetailsAdapter mAdapter;
     private View view;
-    private RecyclerView itemRecyclerView;
+    private SlideRecyclerView itemRecyclerView;
     private LocalBroadcastManager broadcastManager;
     private BroadcastReceiver mReceiver;
     public static final String ACTION_TAG = "Details-Data-Update";
@@ -81,6 +84,7 @@ public class Details extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_details, container, false);
+        // refresh data
         RefreshLayout refreshLayout = (RefreshLayout)view.findViewById(R.id.details_refreshLayout);
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
@@ -89,15 +93,14 @@ public class Details extends Fragment {
                 initRecyclerView();
             }
         });
-//        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
-//            @Override
-//            public void onLoadMore(RefreshLayout refreshlayout) {
-//                refreshlayout.finishLoadMore(2000/*,false*/);//传入false表示加载失败
-//            }
-//        });
-        itemRecyclerView = view.findViewById(R.id.recycler_details);
+
+        // initiate recyclerView
+        itemRecyclerView = (SlideRecyclerView) view.findViewById(R.id.recycler_details);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         itemRecyclerView.setLayoutManager(layoutManager);
+        DividerItemDecoration itemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+        itemDecoration.setDrawable(ContextCompat.getDrawable(getContext(), R.drawable.divider_inset));
+        itemRecyclerView.addItemDecoration(itemDecoration);
         initRecyclerView();
 
         //register broadcast receiver
@@ -115,7 +118,7 @@ public class Details extends Fragment {
     }
 
     private void initRecyclerView() {
-        UserService details = new UserService(MyApplication.getInstance());
+        UserService details = new UserService(getContext());
         final List<FlowData> mitemList = details.getData();
         if(mitemList == null){
             mAdapter = new DetailsAdapter(null, getContext());
@@ -124,6 +127,7 @@ public class Details extends Fragment {
         }
         mAdapter = new DetailsAdapter(mitemList, getContext());
         itemRecyclerView.setAdapter(mAdapter);
+        itemRecyclerView.closeMenu();
 
         mAdapter.setOnItemClickListener(new DetailsAdapter.OnItemClickListener() {
             @Override

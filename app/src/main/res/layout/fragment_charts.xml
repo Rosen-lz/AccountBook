@@ -26,6 +26,7 @@
                 android:layout_width="100dp"
                 android:layout_height="30dp"
                 android:gravity="center"
+                android:textIsSelectable="true"
                 android:textSize="22dp" />
 
             <ImageView
@@ -42,6 +43,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:gravity="center">
+
             <TextView
                 android:id="@+id/textView10"
                 android:layout_width="100dp"
@@ -49,6 +51,7 @@
                 android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:text="Total Cost:"
+                android:textIsSelectable="true"
                 android:textSize="18sp" />
 
             <TextView
@@ -58,6 +61,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="0.0"
+                android:textIsSelectable="true"
                 android:textSize="18sp" />
 
         </LinearLayout>
@@ -67,6 +71,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:gravity="center">
+
             <TextView
                 android:id="@+id/textView3"
                 android:layout_width="120dp"
@@ -74,6 +79,7 @@
                 android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:text="Total Income:"
+                android:textIsSelectable="true"
                 android:textSize="18sp" />
 
             <TextView
@@ -83,6 +89,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="0.0"
+                android:textIsSelectable="true"
                 android:textSize="18sp" />
         </LinearLayout>
 

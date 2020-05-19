@@ -54,12 +54,16 @@ public class UserService {
     public List<FlowData> getData(){
         List<FlowData> mitemList = new ArrayList<>();
         SQLiteDatabase sdb = dbHelper.getReadableDatabase();
-        String sql = "select * from costDetail x, flow_type y, user z where x.type=y.id and z.id=x.user_id and z.username=? order by datetime(x.makeDate) desc";
+        String sql = "select x.id, x.isCost, x. money, x.makeDate, x.note, x.location, y.type_name " +
+                "from costDetail x, flow_type y, user z where x.type=y.id and z.id=x.user_id and " +
+                "z.username=? order by datetime(x.makeDate) desc";
         Cursor cursor = sdb.rawQuery(sql, new String[]{username});
         if (cursor.moveToFirst()) {
             Boolean isCost;
-            String money, date, type, note, location;
+            String money, date, type, note, location, flow_id;
             do {
+                Integer temp_id = cursor.getInt(cursor.getColumnIndex("id"));
+                flow_id = temp_id.toString();
                 isCost = cursor.getString(cursor.getColumnIndex("isCost")).equals("1");
                 money = cursor.getString(cursor.getColumnIndex("money"));
                 date = cursor.getString(cursor.getColumnIndex("makeDate"));
@@ -67,7 +71,7 @@ public class UserService {
                 note = cursor.getString(cursor.getColumnIndex("note"));
                 location = cursor.getString(cursor.getColumnIndex("location"));
                 // adding to todo list
-                mitemList.add(new FlowData(type, money, date, note, location, isCost));
+                mitemList.add(new FlowData(flow_id, type, money, date, note, location, isCost));
             } while (cursor.moveToNext());
             cursor.close();
             return mitemList;
@@ -79,19 +83,23 @@ public class UserService {
         List<FlowData> mitemList = new ArrayList<>();
         SQLiteDatabase sdb = dbHelper.getReadableDatabase();
         Integer userId = this.getUserID();
-        String sql = "select * from costDetail x, flow_type y where x.type=y.id and x.user_id=? and x.makeDate like ? order by datetime(x.makeDate) desc";
+        String sql = "select x.id, x.isCost, x. money, x.makeDate, x.note, x.location, y.type_name " +
+                "from costDetail x, flow_type y where x.type=y.id and x.user_id=? " +
+                "and x.makeDate like ? order by datetime(x.makeDate) desc";
         Cursor cursor = sdb.rawQuery(sql, new String[]{userId.toString(), "%"+Year_Month+"%"});
         if (cursor.moveToFirst()) {
             Boolean isCost;
-            String money, date, type, note, location;
+            String money, date, type, note, location, flow_id;
             do {
+                Integer temp_id = cursor.getInt(cursor.getColumnIndex("id"));
+                flow_id = temp_id.toString();
                 isCost = cursor.getString(cursor.getColumnIndex("isCost")).equals("1");
                 money = cursor.getString(cursor.getColumnIndex("money"));
                 date = cursor.getString(cursor.getColumnIndex("makeDate"));
                 type = cursor.getString(cursor.getColumnIndex("type_name"));
                 note = cursor.getString(cursor.getColumnIndex("note"));
                 location = cursor.getString(cursor.getColumnIndex("location"));
-                mitemList.add(new FlowData(type, money, date, note, location, isCost));
+                mitemList.add(new FlowData(flow_id, type, money, date, note, location, isCost));
             } while (cursor.moveToNext());
             cursor.close();
             return mitemList;
@@ -166,6 +174,12 @@ public class UserService {
         }
         cursor.close();
         return null;
+    }
+
+    public void deleteData(String id) {
+        SQLiteDatabase sdb = dbHelper.getReadableDatabase();
+        sdb.delete("costDetail","id = ?", new String[]{ id });
+        sdb.close();
     }
 }
 

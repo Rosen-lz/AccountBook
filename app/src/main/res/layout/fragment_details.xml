@@ -11,10 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
+        <com.example.accountbook.model.SlideRecyclerView
             android:id="@+id/recycler_details"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content" />
 
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 </FrameLayout>

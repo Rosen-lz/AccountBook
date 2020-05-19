@@ -1,6 +1,8 @@
 package com.example.accountbook.model;
 
 public class FlowData {
+
+    private String flow_id;
     private String category;
     private String money;
     private String makeDate;
@@ -8,7 +10,8 @@ public class FlowData {
     private String location;
     private boolean isCost;
 
-    public FlowData(String category, String money, String makeDate, String note, String location, boolean isCost) {
+    public FlowData(String flow_id, String category, String money, String makeDate, String note, String location, boolean isCost) {
+        this.flow_id = flow_id;
         this.category = category;
         this.money = money;
         this.makeDate = makeDate;
@@ -21,11 +24,8 @@ public class FlowData {
 
     }
 
-    public FlowData(String category, String money, String makeDate, boolean isCost) {
-        this.category = category;
-        this.money = money;
-        this.makeDate = makeDate;
-        this.isCost = isCost;
+    public String getFlow_id() {
+        return flow_id;
     }
 
     public boolean isCost() {
@@ -52,20 +52,24 @@ public class FlowData {
         return makeDate;
     }
 
-    @Override
-    public String toString() {
-        return "DetailsItem{" +
-                "type='" + category + '\'' +
-                ", money='" + money + '\'' +
-                ", makeDate='" + makeDate + '\'' +
-                '}';
-    }
-
     public String getNote() {
         return note;
     }
 
     public String getLocation() {
         return location;
+    }
+
+    @Override
+    public String toString() {
+        return "FlowData{" +
+                "flow_id='" + flow_id + '\'' +
+                ", category='" + category + '\'' +
+                ", money='" + money + '\'' +
+                ", makeDate='" + makeDate + '\'' +
+                ", note='" + note + '\'' +
+                ", location='" + location + '\'' +
+                ", isCost=" + isCost +
+                '}';
     }
 }

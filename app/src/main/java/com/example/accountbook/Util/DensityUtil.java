@@ -1,4 +1,4 @@
-package com.example.accountbook.service;
+package com.example.accountbook.Util;
 import android.content.Context;
 
 public class DensityUtil {

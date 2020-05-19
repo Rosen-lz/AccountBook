@@ -13,17 +13,17 @@ public class DayGroup {
         return day;
     }
 
-    public DayGroup(Double cost, Double income, String day, String type, String category, String money, String note, String location){
+    public DayGroup(String flow_id, Double cost, Double income, String day, String type, String category, String money, String note, String location){
         this.day = day;
         total_cost = cost;
         total_income = income;
-        members.add(new Members(type, category, money, note, location));
+        members.add(new Members(flow_id, type, category, money, note, location));
     }
 
-    public void addMember(Double cost, Double income, String type, String category, String money, String note, String location){
+    public void addMember(String flow_id, Double cost, Double income, String type, String category, String money, String note, String location){
         total_income += income;
         total_cost += cost;
-        members.add(new Members(type, category, money, note, location));
+        members.add(new Members(flow_id, type, category, money, note, location));
     }
 
     public int getMemberCount(){
@@ -58,10 +58,15 @@ public class DayGroup {
         return members.get(position).type;
     }
 
-    private class Members{
-        public String category, money, type, location, note;
+    public String getFlow_id(int position) {
+        return members.get(position).flow_id;
+    }
 
-        public Members(String type, String category, String money, String note, String location) {
+    private class Members{
+        public String category, money, type, location, note, flow_id;
+
+        public Members(String flow_id, String type, String category, String money, String note, String location) {
+            this.flow_id = flow_id;
             this.category = category;
             this.money = money;
             this.type = type;

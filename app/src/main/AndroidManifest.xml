@@ -13,8 +13,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <service android:name=".service.MyService" />
-        <receiver android:name=".service.MyReceiver" />
         <activity android:name=".DisplayFlowInfo"/>
         <activity android:name=".InsertFlowActivity"/>
         <activity android:name=".MainActivity"
@@ -26,7 +24,6 @@
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

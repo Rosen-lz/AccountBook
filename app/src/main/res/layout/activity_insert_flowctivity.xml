@@ -108,49 +108,52 @@
             app:layout_constraintVertical_bias="0.0" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout1"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp">
-
-        <EditText
-            android:id="@+id/add_note"
-            android:layout_width="240dp"
-            android:layout_height="79dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:hint="Please enter brief description..."
-            android:inputType="textMultiLine"
-            android:maxLines="4"
-            android:scrollHorizontally="false"
-            android:singleLine="false"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.111"
-            app:layout_constraintStart_toEndOf="@+id/textView9"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+        android:orientation="vertical"
+        android:layout_marginTop="10dp">
 
         <TextView
-            android:id="@+id/textView9"
-            android:layout_width="95dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginLeft="24dp"
-            android:gravity="center"
-            android:text="Description:"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.489" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:id="@+id/spellchecker"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView_description"
+                android:layout_width="95dp"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:text="Description:"
+                android:textIsSelectable="true"
+                android:layout_marginLeft="20dp"
+                android:textSize="18sp"/>
+
+            <EditText
+                android:id="@+id/add_note"
+                android:layout_width="240dp"
+                android:layout_height="79dp"
+                android:layout_marginLeft="24dp"
+                android:hint="Please enter brief description..."
+                android:inputType="textMultiLine"
+                android:maxLines="4"
+                android:scrollHorizontally="false"
+                android:singleLine="false"
+                android:textIsSelectable="true"/>
+
+        </LinearLayout>
+    </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="5dp">
 
         <Button
             android:id="@+id/button_location"
@@ -182,7 +185,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="10dp">
 
         <Button
             android:id="@+id/textView1"
@@ -209,7 +212,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:gravity="center"
         android:text="Please click to get the time or enter correctly"/>
     <TextView
@@ -223,7 +226,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="10dp">
 
         <Button
             android:id="@+id/button_insert_ok"

@@ -19,11 +19,17 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
+import android.view.textservice.SentenceSuggestionsInfo;
+import android.view.textservice.SpellCheckerSession;
+import android.view.textservice.SuggestionsInfo;
+import android.view.textservice.TextInfo;
+import android.view.textservice.TextServicesManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -36,7 +42,7 @@ import android.widget.Toast;
 
 import com.example.accountbook.adapter.CategoryAdapter;
 import com.example.accountbook.model.Category;
-import com.example.accountbook.service.DensityUtil;
+import com.example.accountbook.Util.DensityUtil;
 import com.example.accountbook.service.UserService;
 import com.example.accountbook.ui.home.Details;
 
@@ -45,18 +51,20 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class InsertFlowActivity extends AppCompatActivity {
+public class InsertFlowActivity extends AppCompatActivity implements SpellCheckerSession.SpellCheckerSessionListener {
 
     private PopupWindow popupWindow;
     private CategoryAdapter categoryAdapter;
     private RadioGroup isCost;
     private EditText add_money, add_note, add_date;
-    private TextView add_location;
+    private TextView add_location, spellchecker, textview_description;
     private List<Category> mitemList;
     private Integer userId;
     private UserService user;
     private LocationManager locationManager;
     private LocationListener locationListener;
+    private SpellCheckerSession mScs;
+
 
     private static Integer category_id = null;
     public static void setCategory_id(Integer category_id) {
@@ -67,9 +75,9 @@ public class InsertFlowActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insert_flowctivity);
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        //bind the view
         Button btn_ok = findViewById(R.id.button_insert_ok);
         Button btn_location = findViewById(R.id.button_location);
         add_location = findViewById(R.id.add_location);
@@ -77,10 +85,33 @@ public class InsertFlowActivity extends AppCompatActivity {
         add_note = findViewById(R.id.add_note);
         isCost = findViewById(R.id.add_isCost);
         add_date = findViewById(R.id.add_makeDate);
+        spellchecker = findViewById(R.id.spellchecker);
+        textview_description = findViewById(R.id.textView_description);
 
+        //spellchecker
+        textview_description.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!add_note.getText().toString().trim().isEmpty()) {
+                    spellchecker.setText("");
+                    if (mScs != null) {
+                        //check a word
+//                        mScs.getSuggestions(new TextInfo(add_note.getText().toString()), 3);
+                        //check some words or a sentence
+                        mScs.getSentenceSuggestions(new TextInfo[]{new TextInfo(add_note.getText().toString())}, 3);
+                    } else {
+                        Log.e("TAG_SPELL", "Couldn't obtain the spell checker service.");
+                    }
+                }else {
+                    spellchecker.setText("");
+                }
+            }
+        });
+
+        //access the database
         user = new UserService(InsertFlowActivity.this);
         userId = user.getUserID();
-
+        //get the data
         mitemList = user.getCategory();
 
         LinearLayout linearLayout = findViewById(R.id.add_container);
@@ -216,5 +247,78 @@ public class InsertFlowActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onResume() {
+        super.onResume();
+        final TextServicesManager tsm = (TextServicesManager)
+                getSystemService(Context.TEXT_SERVICES_MANAGER_SERVICE);
+        mScs = tsm.newSpellCheckerSession(null, null, this, true);
+    }
+
+    public void onPause() {
+        super.onPause();
+        if (mScs != null) {
+            mScs.close();
+        }
+    }
+
+    @Override
+    public void onGetSuggestions(final SuggestionsInfo[] results) {
+        final StringBuilder sb = new StringBuilder();
+        // Returned suggestions are contained in SuggestionsInfo
+        for (int i = 0; i < results.length; i++) {
+            // Returned suggestions are contained in SuggestionsInfo
+            int len = results[0].getSuggestionsCount();
+            sb.append('\t');
+
+            for (int j = 0; j < len; j++) {
+                sb.append("," + results[i].getSuggestionAt(j));
+            }
+
+            sb.append(" (" + len + ")");
+        }
+
+        runOnUiThread(new Runnable() {
+            public void run() {
+                spellchecker.append(sb.toString());
+            }
+        });
+    }
+
+    @Override
+    public void onGetSentenceSuggestions(SentenceSuggestionsInfo[] results) {
+        // TODO Auto-generated method stub
+        final StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < results.length; i++) {
+            SentenceSuggestionsInfo ssi = results[i];
+            for (int j = 0; j < ssi.getSuggestionsCount(); ++j) {
+                dumpSuggestionsInfoInternal(
+                        sb, ssi.getSuggestionsInfoAt(j), ssi.getOffsetAt(j), ssi.getLengthAt(j));
+            }
+        }
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                spellchecker.append(sb.toString());
+            }
+        });
+    }
+
+    private void dumpSuggestionsInfoInternal(
+        final StringBuilder sb, final SuggestionsInfo si, final int length, final int offset) {
+        // Returned suggestions are contained in SuggestionsInfo
+        final int len = si.getSuggestionsCount();
+        sb.append('\t');
+        for (int j = 0; j < len; ++j) {
+            if (j != 0) {
+                sb.append(", ");
+            }
+            sb.append(si.getSuggestionAt(j));
+        }
+        sb.append(" (" + len + ")");
+//        if (length != -1) {
+//            sb.append(" length = " + length + ", offset = " + offset);
+//        }
     }
 }

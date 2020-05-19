@@ -2,9 +2,14 @@ package com.example.accountbook.ui.home;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -37,6 +42,9 @@ public class Group extends Fragment {
     private View view;
     private LinearLayout linearLayout;
     private RecyclerView itemRecyclerView;
+    private LocalBroadcastManager broadcastManager;
+    private BroadcastReceiver mReceiver;
+    public static final String ACTION_TAG = "Details-Data-Update";
 
     public Group() {
         // Required empty public constructor
@@ -74,9 +82,23 @@ public class Group extends Fragment {
         date = view.findViewById(R.id.group_date);
         cost = view.findViewById(R.id.group_cost);
         income = view.findViewById(R.id.group_income);
+        // setting recyclerView
         itemRecyclerView = view.findViewById(R.id.group_recycler);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         itemRecyclerView.setLayoutManager(layoutManager);
+
+        //register broadcast receiver
+        broadcastManager = LocalBroadcastManager.getInstance(getActivity());
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(ACTION_TAG);
+        mReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent){
+                initRecyclerView();
+            }
+        };
+        broadcastManager.registerReceiver(mReceiver, intentFilter);
+
         // Calendar
         final Calendar calendar= Calendar.getInstance();
         date.setText(calendar.get(Calendar.YEAR)+"-"+String.format("%02d",calendar.get(Calendar.MONTH)+1));
@@ -142,15 +164,21 @@ public class Group extends Fragment {
             // initialize the recyclerView data
             if (day.contains(makeDate)){
                 int position = day.indexOf(makeDate);
-                data.get(position).addMember(cost, income, type, temp.getCategory(), money, temp.getNote(), temp.getLocation());
+                data.get(position).addMember(temp.getFlow_id(), cost, income, type, temp.getCategory(), money, temp.getNote(), temp.getLocation());
             }else{
                 day.add(makeDate);
-                data.add(new DayGroup(cost, income, makeDate, type, temp.getCategory(), money, temp.getNote(), temp.getLocation()));
+                data.add(new DayGroup(temp.getFlow_id(), cost, income, makeDate, type, temp.getCategory(), money, temp.getNote(), temp.getLocation()));
             }
         }
         cost.setText(total_cost.toString());
         income.setText(total_income.toString());
 
         itemRecyclerView.setAdapter(new GroupAdapter(getContext(), data));
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        broadcastManager.unregisterReceiver(mReceiver);
     }
 }

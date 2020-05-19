@@ -2,13 +2,17 @@ package com.example.accountbook.ui.home;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,6 +55,9 @@ public class Charts extends Fragment {
     private ImageButton imageButton;
     private PieChart mPieChart;
     private Boolean isCost = true;
+    private LocalBroadcastManager broadcastManager;
+    private BroadcastReceiver mReceiver;
+    public static final String ACTION_TAG = "Details-Data-Update";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -85,6 +92,19 @@ public class Charts extends Fragment {
         cost = view.findViewById(R.id.chart_cost);
         income = view.findViewById(R.id.chart_income);
         imageButton = view.findViewById(R.id.chart_button);
+
+        //register broadcast receiver
+        broadcastManager = LocalBroadcastManager.getInstance(getActivity());
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(ACTION_TAG);
+        mReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent){
+                isCost = true;
+                readyToDisplayPieChart();
+            }
+        };
+        broadcastManager.registerReceiver(mReceiver, intentFilter);
 
         final Calendar calendar= Calendar.getInstance();
         date.setText(calendar.get(Calendar.YEAR)+"-"+String.format("%02d",calendar.get(Calendar.MONTH)+1));
@@ -225,4 +245,9 @@ public class Charts extends Fragment {
         pieChart.postInvalidate();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        broadcastManager.unregisterReceiver(mReceiver);
+    }
 }

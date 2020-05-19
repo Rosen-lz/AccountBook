@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -29,6 +30,9 @@ public class LoginActivity extends AppCompatActivity {
         password=(EditText) findViewById(R.id.login_password);
         login=(Button) findViewById(R.id.button_login);
         register=(TextView) findViewById(R.id.button_register1);
+        //hide the option menu to forbid the paste function
+        username.setImeOptions(EditorInfo.IME_FLAG_NO_EXTRACT_UI);
+        password.setImeOptions(EditorInfo.IME_FLAG_NO_EXTRACT_UI);
 
         // connect the SQLite
         SQLiteStudioService.instance().start(this);
@@ -67,4 +71,5 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
 }

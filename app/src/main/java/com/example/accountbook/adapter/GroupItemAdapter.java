@@ -1,16 +1,22 @@
 package com.example.accountbook.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.accountbook.R;
 import com.example.accountbook.model.DayGroup;
+import com.example.accountbook.service.UserService;
+import com.example.accountbook.ui.home.Details;
 
 
 public class GroupItemAdapter extends RecyclerView.Adapter<GroupItemAdapter.ViewHolder>{
@@ -35,13 +41,16 @@ public class GroupItemAdapter extends RecyclerView.Adapter<GroupItemAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         //obtain the name and image
-        TextView type, money;
+        TextView type, money, delete;
+        RelativeLayout relativeLayout;
 
         //bind the components
         public ViewHolder (View view) {
             super(view);
+            relativeLayout = view.findViewById(R.id.group_relativeLayout);
             type = view.findViewById(R.id.group_item_type);
             money = view.findViewById(R.id.group_item_money);
+            delete = view.findViewById(R.id.group_item_delete);
         }
     }
 
@@ -53,9 +62,19 @@ public class GroupItemAdapter extends RecyclerView.Adapter<GroupItemAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(@NonNull GroupItemAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull GroupItemAdapter.ViewHolder holder, final int position) {
         holder.type.setText(data.getCategory(position));
         holder.money.setText(data.getMoney(position));
+        holder.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserService details = new UserService(context);
+                details.deleteData(data.getFlow_id(position));
+                //call the broadcast receiver in the Details fragment
+                Intent intent = new Intent(Details.ACTION_TAG);
+                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+            }
+        });
         setEvent(holder);
     }
 
@@ -66,11 +85,11 @@ public class GroupItemAdapter extends RecyclerView.Adapter<GroupItemAdapter.View
 
     private void setEvent(final ViewHolder holder) {
         if (mOnItemClickListener != null){
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
+            holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     int layoutPosition = holder.getLayoutPosition();
-                    mOnItemClickListener.onItemClick(holder.itemView, layoutPosition);
+                    mOnItemClickListener.onItemClick(holder.relativeLayout, layoutPosition);
                 }
             });
         }
