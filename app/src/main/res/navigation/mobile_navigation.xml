@@ -30,10 +30,10 @@
     </fragment>
 
     <fragment
-        android:id="@+id/nav_setting"
-        android:name="com.example.accountbook.ui.setting.SettingFragment"
-        android:label="@string/action_settings"
-        tools:layout="@layout/fragment_setting" />
+        android:id="@+id/nav_info"
+        android:name="com.example.accountbook.ui.information.InfoFragment"
+        android:label="Information"
+        tools:layout="@layout/fragment_info" />
 
     <fragment
         android:id="@+id/nav_about"

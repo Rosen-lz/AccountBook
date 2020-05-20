@@ -72,4 +72,11 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        username.setText("");
+        password.setText("");
+    }
+
 }

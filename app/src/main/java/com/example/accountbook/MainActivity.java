@@ -5,14 +5,18 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.accountbook.model.InsertFlow;
 import com.example.accountbook.service.UserService;
 import com.example.accountbook.ui.home.HomeFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.view.GravityCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -22,9 +26,11 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
+    private TextView username, email;
+    private ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +39,6 @@ public class MainActivity extends AppCompatActivity{
         Toolbar toolbar = findViewById(R.id.toolbar);
 
         // initiate the username;
-        UserService user = new UserService(this);
         Intent intent1 = getIntent();
         UserService.setUsername(intent1.getStringExtra("username"));
 
@@ -57,7 +62,7 @@ public class MainActivity extends AppCompatActivity{
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_setting, R.id.nav_about)
+                R.id.nav_home, R.id.nav_info, R.id.nav_about)
                 .setDrawerLayout(drawer)
                 .build();
 
@@ -89,8 +94,9 @@ public class MainActivity extends AppCompatActivity{
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_settings:
-                Toast.makeText(this, "Click !", Toast.LENGTH_SHORT).show();
+            case R.id.action_exit:
+                Toast.makeText(this, "Exit !", Toast.LENGTH_SHORT).show();
+                this.finish();
                 break;
 //            case R.id.action_settidfngs:
 //                Toast.makeText(this, "Click ! ", Toast.LENGTH_SHORT).show();
