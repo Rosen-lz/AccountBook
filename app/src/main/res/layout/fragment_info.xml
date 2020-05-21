@@ -7,12 +7,12 @@
     android:orientation="vertical"
     tools:context=".ui.information.InfoFragment">
 
-    <RelativeLayout
-        android:id="@+id/relativeLayout_username"
+    <LinearLayout
+        android:id="@+id/linearLayout_username"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@drawable/border2"
-        android:layout_marginTop="30dp">
+        android:layout_marginTop="30dp"
+        android:background="@drawable/border2">
 
         <TextView
             android:layout_width="wrap_content"
@@ -26,19 +26,19 @@
             android:id="@+id/info_username"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="50dp"
+            android:layout_marginLeft="50dp"
             android:gravity="center"
+            android:text="null"
             android:textSize="20dp" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
-    <RelativeLayout
-        android:id="@+id/relativeLayout_password"
+    <LinearLayout
+        android:id="@+id/linearLayout_password"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@drawable/border2"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        android:background="@drawable/border2">
 
         <TextView
             android:layout_width="wrap_content"
@@ -52,18 +52,70 @@
             android:id="@+id/info_password"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="50dp"
+            android:layout_marginLeft="52dp"
             android:gravity="center"
+            android:text="null"
             android:textSize="20dp" />
-    </RelativeLayout>
+    </LinearLayout>
 
-    <RelativeLayout
-        android:id="@+id/relativeLayout_email"
+    <LinearLayout
+        android:id="@+id/linearLayout_sex"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@drawable/border2"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        android:background="@drawable/border2">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="98dp"
+            android:gravity="center"
+            android:text="Sex:"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/info_sex"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="51dp"
+            android:gravity="center"
+            android:text="null"
+            android:textSize="20dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout_birthday"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/border2">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="55dp"
+            android:gravity="center"
+            android:text="Birthday:"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/info_birthday"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="51dp"
+            android:gravity="center"
+            android:text="null"
+            android:textSize="20dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout_email"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/border2">
 
         <TextView
             android:layout_width="wrap_content"
@@ -77,23 +129,23 @@
             android:id="@+id/info_email"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="50dp"
+            android:layout_marginLeft="50dp"
             android:gravity="center"
+            android:text="null"
             android:textSize="20dp" />
-    </RelativeLayout>
+    </LinearLayout>
 
-    <RelativeLayout
-        android:id="@+id/relativeLayout_phone"
+    <LinearLayout
+        android:id="@+id/linearLayout_phone"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@drawable/border2"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        android:background="@drawable/border2">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginLeft="80dp"
+            android:layout_marginLeft="72dp"
             android:gravity="center"
             android:text="Phone:"
             android:textSize="20dp" />
@@ -102,9 +154,18 @@
             android:id="@+id/info_phone"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="50dp"
+            android:layout_marginLeft="52dp"
             android:gravity="center"
+            android:text="null"
             android:textSize="20dp" />
-    </RelativeLayout>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="You are allowed to click on items to change some information."
+        android:layout_marginTop="20dp"
+        android:textSize="18dp"/>
+
 </LinearLayout>

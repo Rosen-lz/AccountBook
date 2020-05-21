@@ -78,7 +78,7 @@ public class RegisterActivity extends AppCompatActivity {
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 String text = "You have selected：" + year + "-" + (month + 1) + "-" + dayOfMonth;
                 Toast.makeText( RegisterActivity.this, text, Toast.LENGTH_SHORT ).show();
-                birthday.setText(year + "-" + (month + 1) + "-" + dayOfMonth);
+                birthday.setText(year + "-" + String.format("%02d", month+1) + "-" + String.format("%02d", dayOfMonth));
             }
         }
                 ,calendar.get(Calendar.YEAR)

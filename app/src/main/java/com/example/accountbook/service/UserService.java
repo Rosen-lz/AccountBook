@@ -1,5 +1,6 @@
 package com.example.accountbook.service;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -48,6 +49,45 @@ public class UserService {
         }else {
             cursor.close();
             return false;
+        }
+    }
+
+    public User getUserInfo() {
+        SQLiteDatabase sdb = dbHelper.getReadableDatabase();
+        String sql = "select * from user where username=?";
+        Cursor cursor = sdb.rawQuery(sql, new String[] {username});
+        User user = null;
+        if (cursor.moveToNext()) {
+            Integer id = cursor.getInt(cursor.getColumnIndex("id"));
+            String password = cursor.getString(cursor.getColumnIndex("password"));
+            String birthday = cursor.getString(cursor.getColumnIndex("birthday"));
+            String sex = cursor.getString(cursor.getColumnIndex("sex"));
+            String email = cursor.getString(cursor.getColumnIndex("email"));
+            String phone = cursor.getString(cursor.getColumnIndex("phone"));
+            user = new User(id.toString(), username, password, birthday, sex, email, phone);
+        }
+        cursor.close();
+        return user;
+    }
+
+    public void updateInfo(String id, String type, String value) {
+        SQLiteDatabase sdb = dbHelper.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(type, value);
+        sdb.update("user", contentValues, "id=?", new String[]{id});
+        sdb.close();
+    }
+
+    public boolean isInfoExist(String type, String value){
+        SQLiteDatabase sdb = dbHelper.getReadableDatabase();
+        String sql = "Select * from user where " + type + "=?";
+        Cursor cursor = sdb.rawQuery(sql,new String[]{value});
+        if(cursor.getCount() == 0){
+            cursor.close();
+            return false;
+        }else{
+            cursor.close();
+            return true;
         }
     }
 
@@ -177,7 +217,7 @@ public class UserService {
     }
 
     public void deleteData(String id) {
-        SQLiteDatabase sdb = dbHelper.getReadableDatabase();
+        SQLiteDatabase sdb = dbHelper.getWritableDatabase();
         sdb.delete("costDetail","id = ?", new String[]{ id });
         sdb.close();
     }

@@ -21,7 +21,7 @@
         android:id="@+id/textView7"
         android:layout_width="98dp"
         android:layout_height="29dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="36dp"
         android:gravity="right"
         android:text="Sex:"
         android:textIsSelectable="true"
@@ -145,14 +145,14 @@
             android:id="@+id/man"
             android:layout_width="100dp"
             android:layout_height="match_parent"
-            android:text="Man"
+            android:text="Male"
             android:textIsSelectable="false" />
 
         <RadioButton
             android:id="@+id/woman"
             android:layout_width="100dp"
             android:layout_height="match_parent"
-            android:text="Woman"
+            android:text="Female"
             android:textIsSelectable="false" />
     </RadioGroup>
 
