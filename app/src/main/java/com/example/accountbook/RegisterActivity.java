@@ -3,6 +3,7 @@ package com.example.accountbook;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +19,8 @@ import com.example.accountbook.model.User;
 import com.example.accountbook.service.UserService;
 
 import java.util.Calendar;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import pl.com.salsoft.sqlitestudioremote.SQLiteStudioService;
 
@@ -59,11 +62,21 @@ public class RegisterActivity extends AppCompatActivity {
                 user.setSex(sexStr);
 
                 if(user.getUsername().equals("") || user.getPassword().equals("")){
-                    Toast.makeText(RegisterActivity.this, "Please enter information", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, "Please enter data", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Pattern pattern = Pattern.compile("[^a-zA-Z0-9]");
+                Matcher matcher = pattern.matcher(name);
+                if(!matcher.matches()){
+                    Toast.makeText(RegisterActivity.this, "Username is illegal: only character and number are allowed", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if(uService.register(user)){
                     Toast.makeText(RegisterActivity.this, "Register Successfully", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent();
+                    intent.putExtra("username_return",name);
+                    setResult(RESULT_OK,intent);
+                    finish();
                 }else{
                     Toast.makeText(RegisterActivity.this, "This username has existed", Toast.LENGTH_LONG).show();
                 }

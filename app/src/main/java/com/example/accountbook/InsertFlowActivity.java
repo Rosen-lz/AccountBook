@@ -133,10 +133,13 @@ public class InsertFlowActivity extends AppCompatActivity implements SpellChecke
                     Toast.makeText(InsertFlowActivity.this, "Please enter the description", Toast.LENGTH_SHORT).show();
                 } else{
                     String makeDate;
-                    if (add_date.getText().toString().trim().equals("")){
+                    if (add_date.getText().toString().trim().isEmpty()){
                         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");// HH:mm:ss");
                         Date date = new Date(System.currentTimeMillis());
                         makeDate = simpleDateFormat.format(date);
+                    }else if(!checkDate(add_date.getText().toString().trim())) {
+                        Toast.makeText(InsertFlowActivity.this, "The format of your date is wrong",Toast.LENGTH_SHORT).show();
+                        return;
                     }else {
                         makeDate = add_date.getText().toString().trim();
                     }
@@ -153,6 +156,17 @@ public class InsertFlowActivity extends AppCompatActivity implements SpellChecke
                     Intent data = new Intent(InsertFlowActivity.this, MainActivity.class);
                     InsertFlowActivity.this.setResult(RESULT_OK, data);
                     InsertFlowActivity.this.finish();
+                }
+            }
+
+            private boolean checkDate(String trim) {
+                try {
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    dateFormat.setLenient(false);
+                    dateFormat.parse(trim);
+                    return true;
+                }catch (Exception e) {
+                    return false;
                 }
             }
         });

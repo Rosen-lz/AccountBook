@@ -1,5 +1,6 @@
 package com.example.accountbook;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -67,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
         });
         register.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+                startActivityForResult(new Intent(LoginActivity.this, RegisterActivity.class), 1);
             }
         });
     }
@@ -79,4 +80,16 @@ public class LoginActivity extends AppCompatActivity {
         password.setText("");
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case 1:
+                if (resultCode == RESULT_OK) {
+                    String returnData = data.getStringExtra("username_return");
+                    username.setText(returnData);
+                }
+                break;
+        }
+    }
 }

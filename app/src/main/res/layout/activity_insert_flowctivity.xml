@@ -1,238 +1,240 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/add_main"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".InsertFlowActivity">
 
-    <RelativeLayout
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp">
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Category:"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="40dp"
-            android:textSize="18sp" />
-
-        <LinearLayout
-            android:id="@+id/add_container"
-            android:layout_width="220dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="50dp"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/add_category_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Please select"
-                android:textSize="18sp" />
-
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:background="@mipmap/country_selector" />
-        </LinearLayout>
-    </RelativeLayout>
-
-    <RadioGroup
-        android:id="@+id/add_isCost"
-        android:layout_width="match_parent"
-        android:layout_height="39dp"
-        android:layout_marginTop="20dp"
-        android:checkedButton="@+id/add_cost"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <RadioButton
-            android:id="@+id/add_cost"
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
-            android:text="Cost" />
-
-        <RadioButton
-            android:id="@+id/add_income"
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="40dp"
-            android:text="Income" />
-    </RadioGroup>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintTop_toBottomOf="@+id/add_selector">
-
-        <EditText
-            android:id="@+id/add_money"
-            android:layout_width="203dp"
-            android:layout_height="40dp"
-            android:layout_margin="4dp"
-            android:gravity="center_vertical"
-            android:hint="Money"
-            android:inputType="number|numberDecimal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.177"
-            app:layout_constraintStart_toEndOf="@+id/textView8"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteY="0dp" />
-
-        <TextView
-            android:id="@+id/textView8"
-            android:layout_width="74dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="44dp"
-            android:layout_marginLeft="44dp"
-            android:gravity="center"
-            android:text="Monney:"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_height="match_parent"
+        android:alpha="0.2"
+        android:scaleType="fitXY"
+        android:src="@drawable/add" />
 
     <LinearLayout
+        android:id="@+id/add_main"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="10dp">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/spellchecker"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:gravity="center"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="40dp"
+                android:gravity="center"
+                android:text="Category:"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:id="@+id/add_container"
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="50dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/add_category_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Please select"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@mipmap/country_selector" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RadioGroup
+            android:id="@+id/add_isCost"
+            android:layout_width="match_parent"
+            android:layout_height="39dp"
+            android:layout_marginTop="20dp"
+            android:checkedButton="@+id/add_cost"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/add_cost"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:text="Cost" />
+
+            <RadioButton
+                android:id="@+id/add_income"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="40dp"
+                android:text="Income" />
+        </RadioGroup>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
+            android:gravity="center_vertical"
+            android:layout_marginTop="20dp">
             <TextView
-                android:id="@+id/textView_description"
-                android:layout_width="95dp"
+                android:id="@+id/textView8"
+                android:layout_width="74dp"
                 android:layout_height="40dp"
+                android:layout_marginLeft="44dp"
                 android:gravity="center"
-                android:text="Description:"
-                android:textIsSelectable="true"
-                android:layout_marginLeft="20dp"
-                android:textSize="18sp"/>
-
-            <EditText
-                android:id="@+id/add_note"
-                android:layout_width="240dp"
-                android:layout_height="79dp"
-                android:layout_marginLeft="24dp"
-                android:hint="Please enter brief description..."
-                android:inputType="textMultiLine"
-                android:maxLines="4"
-                android:scrollHorizontally="false"
-                android:singleLine="false"
-                android:textIsSelectable="true"/>
+                android:text="Money:"
+                android:textSize="18sp" />
+                <EditText
+                    android:id="@+id/add_money"
+                    android:layout_width="203dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="20dp"
+                    android:gravity="center_vertical"
+                    android:hint="Money"
+                    android:inputType="number|numberDecimal" />
 
         </LinearLayout>
-    </LinearLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/button_location"
-            android:layout_width="100dp"
-            android:layout_height="45dp"
-            android:layout_marginLeft="25dp"
-            android:layout_centerVertical="true"
-            android:onClick="getLocation"
-            android:text="location"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            <TextView
+                android:id="@+id/spellchecker"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView_description"
+                    android:layout_width="95dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="20dp"
+                    android:gravity="center"
+                    android:text="Description:"
+                    android:textIsSelectable="true"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/add_note"
+                    android:layout_width="240dp"
+                    android:layout_height="79dp"
+                    android:layout_marginLeft="22dp"
+                    android:hint="Click 'description' to check spelling"
+                    android:inputType="textMultiLine"
+                    android:maxLines="4"
+                    android:scrollHorizontally="false"
+                    android:singleLine="false"
+                    android:textIsSelectable="true" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
+
+            <Button
+                android:id="@+id/button_location"
+                android:layout_width="100dp"
+                android:layout_height="45dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="25dp"
+                android:onClick="getLocation"
+                android:text="location"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/add_location"
+                android:layout_width="253dp"
+                android:layout_height="90dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20dp"
+                android:gravity="center_vertical"
+                android:hint="Please click ot get the location"
+                android:inputType="textMultiLine">
+
+            </TextView>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <Button
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="30dp"
+                android:gravity="center"
+                android:onClick="selectDate"
+                android:text="Time"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/add_makeDate"
+                android:layout_width="220dp"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="53dp"
+                android:gravity="center_vertical"
+                android:hint="yyyy-MM-dd"
+                android:inputType="date" />
+        </RelativeLayout>
 
         <TextView
-            android:id="@+id/add_location"
-            android:layout_width="253dp"
-            android:layout_height="90dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="17dp"
-            android:gravity="center_vertical"
-            android:hint="Please click ot get the location"
-            android:inputType="textMultiLine">
-
-        </TextView>
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp">
-
-        <Button
-            android:id="@+id/textView1"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:gravity="center"
-            android:onClick="selectDate"
-            android:text="Time"
-            android:textSize="18sp" />
+            android:text="Please click to get the time or enter correctly" />
 
-        <EditText
-            android:id="@+id/add_makeDate"
-            android:layout_width="220dp"
+        <TextView
+            android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="50dp"
-            android:gravity="center_vertical"
-            android:inputType="date"
-            android:hint="YYYY-MM-DD" />
-    </RelativeLayout>
+            android:gravity="center"
+            android:text="If you do not select the time, we will automatically generate it." />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:text="Please click to get the time or enter correctly"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:gravity="center"
-        android:text="If you do not select the time, we will automatically generate it." />
+        <LinearLayout
+            android:id="@+id/constraintLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center_horizontal">
 
-    <RelativeLayout
-        android:id="@+id/constraintLayout2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="10dp">
+            <Button
+                android:id="@+id/button_insert_ok"
+                android:layout_width="130dp"
+                android:layout_height="45dp"
+                android:text="@android:string/ok" />
 
-        <Button
-            android:id="@+id/button_insert_ok"
-            android:layout_width="130dp"
-            android:layout_height="45dp"
-            android:text="@android:string/ok" />
+        </LinearLayout>
 
-    </RelativeLayout>
-</LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

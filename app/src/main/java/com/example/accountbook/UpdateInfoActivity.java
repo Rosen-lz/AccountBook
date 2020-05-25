@@ -19,6 +19,8 @@ import com.example.accountbook.service.UserService;
 import com.example.accountbook.ui.information.InfoFragment;
 
 import java.util.Calendar;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class UpdateInfoActivity extends AppCompatActivity {
     private TextView birthday1, birthday2, email1, email2, phone1, phone2, password1, password2, password3;
@@ -135,11 +137,19 @@ public class UpdateInfoActivity extends AppCompatActivity {
                 Toast.makeText(this, "Your new email address should be different from the old one", Toast.LENGTH_SHORT).show();
                 return;
             }
+            String check =  "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
+            Pattern regex = Pattern.compile(check);
+            Matcher matcher = regex.matcher(temp);
+            if (!matcher.matches()) {
+                Toast.makeText(this, "The format of your email is wrong",Toast.LENGTH_SHORT).show();
+                return;
+            }
             if (user.isInfoExist("email", temp)){
                 Toast.makeText(this,"This email address has been used",Toast.LENGTH_SHORT).show();
                 return;
             }
             user.updateInfo(id, type, temp);
+            MainActivity.setEmail(temp);
         }else if(type.equals("phone")){
             String temp = phone2.getText().toString().trim();
             if (temp.isEmpty()){

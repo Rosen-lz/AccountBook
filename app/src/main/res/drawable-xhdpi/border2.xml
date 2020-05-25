@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <solid android:color="#f8f8f8" /> //边框内容背景色
-
     <stroke
         android:width="2dp"
         android:color="#cccccc" /> //边框颜色

@@ -28,9 +28,8 @@ import androidx.appcompat.widget.Toolbar;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static TextView nav_user, nav_email;
     private AppBarConfiguration mAppBarConfiguration;
-    private TextView username, email;
-    private ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +39,8 @@ public class MainActivity extends AppCompatActivity {
 
         // initiate the username;
         Intent intent1 = getIntent();
-        UserService.setUsername(intent1.getStringExtra("username"));
+        String username = intent1.getStringExtra("username");
+        UserService.setUsername(username);
 
         //实现toolbar替换默认的Actionbar
         setSupportActionBar(toolbar);
@@ -65,9 +65,14 @@ public class MainActivity extends AppCompatActivity {
                 R.id.nav_home, R.id.nav_info, R.id.nav_about)
                 .setDrawerLayout(drawer)
                 .build();
-
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+        View headView = navigationView.getHeaderView(0);
+        nav_user = headView.findViewById(R.id.nav_user);
+        nav_email = headView.findViewById(R.id.nav_email);
+        nav_user.setText("User: " + username);
+        UserService user = new UserService(this);
+        nav_email.setText("Email: " + user.getEmail());
         //使得drawer显示
         NavigationUI.setupWithNavController(navigationView, navController);
     }
@@ -119,5 +124,9 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    public static void setEmail(String temp) {
+        nav_email.setText("Email: " + temp);
     }
 }

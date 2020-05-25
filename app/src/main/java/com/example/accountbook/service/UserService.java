@@ -26,6 +26,17 @@ public class UserService {
         dbHelper = new DatabaseHelper(context);
     }
 
+    public String getEmail() {
+        SQLiteDatabase sdb = dbHelper.getReadableDatabase();
+        String sql="select email from user where username=?";
+        Cursor cursor = sdb.rawQuery(sql, new String[]{username});
+        if (cursor.moveToNext()) {
+            String email = cursor.getString(cursor.getColumnIndex("email"));
+            return email;
+        }
+        return "no data";
+    }
+
     public boolean login(String username,String password){
         SQLiteDatabase sdb = dbHelper.getReadableDatabase();
         String sql="select * from user where username=? and password=?";
