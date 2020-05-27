@@ -65,10 +65,26 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this, "Please enter data", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                Pattern pattern = Pattern.compile("[^a-zA-Z0-9]");
-                Matcher matcher = pattern.matcher(name);
-                if(!matcher.matches()){
-                    Toast.makeText(RegisterActivity.this, "Username is illegal: only character and number are allowed", Toast.LENGTH_SHORT).show();
+                if(name.length() > 10){
+                    Toast.makeText(RegisterActivity.this, "The length of username should be less than 10", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                String regExp = "^[A-Za-z][\\w_]{5,10}$";
+                if(!name.matches(regExp)){
+                    Toast.makeText(RegisterActivity.this, "The format of the username is illegal: [A-Za-z]+[\\w]", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(pass.length() < 8){
+                    Toast.makeText(RegisterActivity.this, "The length of password should be more than 8", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                String regExp2 = "^(?![0-9]+$)(?![^0-9]+$)(?![a-zA-Z]+$)(?![^a-zA-Z]+$)(?![a-zA-Z0-9]+$)[a-zA-Z0-9\\S]{8,}$";
+                if(!pass.matches(regExp2)) {
+                    Toast.makeText(RegisterActivity.this, "Password should start with [A-Za-z] and bound with [0-9] and special symbol", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(birthdayStr.isEmpty()){
+                    Toast.makeText(RegisterActivity.this, "Please select your birthday", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if(uService.register(user)){
@@ -78,7 +94,7 @@ public class RegisterActivity extends AppCompatActivity {
                     setResult(RESULT_OK,intent);
                     finish();
                 }else{
-                    Toast.makeText(RegisterActivity.this, "This username has existed", Toast.LENGTH_LONG).show();
+                    Toast.makeText(RegisterActivity.this, "This username has been used", Toast.LENGTH_LONG).show();
                 }
             }
         });

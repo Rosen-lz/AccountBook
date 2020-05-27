@@ -39,12 +39,16 @@ public class UserService {
 
     public boolean login(String username,String password){
         SQLiteDatabase sdb = dbHelper.getReadableDatabase();
-        String sql="select * from user where username=? and password=?";
-        Cursor cursor = sdb.rawQuery(sql, new String[]{username,password});
+        String sql="select * from user where username=? or email=? or phone=?";
+        Cursor cursor = sdb.rawQuery(sql, new String[]{username,username,username});
         if(cursor.moveToFirst()==true){
-            cursor.close();
-            return true;
+            String temp = cursor.getString(cursor.getColumnIndex("password"));
+            if (temp.equals(password)) {
+                cursor.close();
+                return true;
+            }
         }
+        cursor.close();
         return false;
     }
 
