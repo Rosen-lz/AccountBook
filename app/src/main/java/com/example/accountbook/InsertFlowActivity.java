@@ -43,6 +43,7 @@ import android.widget.Toast;
 import com.example.accountbook.adapter.CategoryAdapter;
 import com.example.accountbook.model.Category;
 import com.example.accountbook.Util.DensityUtil;
+import com.example.accountbook.model.InsertFlow;
 import com.example.accountbook.service.UserService;
 import com.example.accountbook.ui.home.Details;
 
@@ -121,7 +122,7 @@ public class InsertFlowActivity extends AppCompatActivity implements SpellChecke
                 showPopupWindows(v);
             }
         });
-
+        //insert data into the database
         btn_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -148,7 +149,7 @@ public class InsertFlowActivity extends AppCompatActivity implements SpellChecke
                     String money = add_money.getText().toString().trim();
                     String location = add_location.getText().toString().trim();
                     // insert data
-                    user.insertFlow(userId, category_id, money, note, makeDate, isCost_boolean, location);
+                    user.insertFlow(new InsertFlow(isCost_boolean, category_id, userId, note, money, makeDate, location));
                     //call the broadcast receiver in the Details fragment
                     Intent intent = new Intent(Details.ACTION_TAG);
                     LocalBroadcastManager.getInstance(InsertFlowActivity.this).sendBroadcast(intent);
@@ -159,6 +160,7 @@ public class InsertFlowActivity extends AppCompatActivity implements SpellChecke
                 }
             }
 
+            //verify the format of the date
             private boolean checkDate(String trim) {
                 try {
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -184,6 +186,7 @@ public class InsertFlowActivity extends AppCompatActivity implements SpellChecke
         }
     }
 
+    //display the popupWindows
     private void showPopupWindows(View v){
 //         下拉框
         View view = LayoutInflater.from(this).inflate(R.layout.category_popup_windows,null);

@@ -10,11 +10,6 @@ public class Percentage {
 
     private Double value;
 
-    public Percentage(float percentage, String label) {
-        this.percentage = percentage;
-        this.label = label;
-    }
-
     public Percentage(String label, Double value) {
         this.label = label;
         this.value = value;

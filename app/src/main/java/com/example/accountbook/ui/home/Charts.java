@@ -153,8 +153,8 @@ public class Charts extends Fragment {
 
     private List<PieEntry> getPieChartData(String isCost, String date) {
         UserService user = new UserService(getActivity());
+        //get the data from the database
         List<Percentage> dataList = user.getPieChartData(isCost, date);
-//        List<String> dataList = "数据库或网络获取数据"
         List<PieEntry> mPie = new ArrayList<>();
         Double total=0.0;
         if(dataList == null){

@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.accountbook.model.Category;
+import com.example.accountbook.model.InsertFlow;
 import com.example.accountbook.model.Percentage;
 import com.example.accountbook.model.User;
 import com.example.accountbook.model.FlowData;
@@ -193,10 +194,10 @@ public class UserService {
         return temp;
     }
 
-    public void insertFlow(Integer user_id, Integer type, String money, String note, String makeDate, Boolean isCost, String location){
+    public void insertFlow(InsertFlow temp){
         SQLiteDatabase sdb = dbHelper.getReadableDatabase();
         String sql = "insert into costDetail(user_id, type, money, note, makeDate, isCost, location) values(?,?,?,?,?,?,?)";
-        Object obj[] = {user_id, type, money, note, makeDate, isCost, location};
+        Object obj[] = {temp.getUserid(), temp.getType(), temp.getMoney(), temp.getNote(), temp.getDate(), temp.getCost(), temp.getLocation()};
         sdb.execSQL(sql, obj);
     }
 

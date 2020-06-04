@@ -14,7 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.accountbook.MyApplication;
 import com.example.accountbook.R;
 import com.example.accountbook.model.FlowData;
 import com.example.accountbook.service.UserService;

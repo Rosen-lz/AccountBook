@@ -2,6 +2,7 @@ package com.example.accountbook.model;
 
 public class InsertFlow {
     private Boolean isCost;
+
     private Integer type;
     private Integer userid;
     private String note;
@@ -9,34 +10,14 @@ public class InsertFlow {
     private String date;
     private String location;
 
-    public InsertFlow() {
-    }
 
-    public void setCost(Boolean cost) {
-        isCost = cost;
-    }
-
-    public void setType(Integer type) {
+    public InsertFlow(Boolean isCost, Integer type, Integer userid, String note, String money, String date, String location) {
+        this.isCost = isCost;
         this.type = type;
-    }
-
-    public void setUserid(Integer userid) {
         this.userid = userid;
-    }
-
-    public void setNote(String note) {
         this.note = note;
-    }
-
-    public void setMoney(String money) {
         this.money = money;
-    }
-
-    public void setDate(String date) {
         this.date = date;
-    }
-
-    public void setLocation(String location) {
         this.location = location;
     }
 
@@ -51,5 +32,33 @@ public class InsertFlow {
                 ", date='" + date + '\'' +
                 ", location='" + location + '\'' +
                 '}';
+    }
+
+    public Boolean getCost() {
+        return isCost;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public Integer getUserid() {
+        return userid;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public String getMoney() {
+        return money;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public String getLocation() {
+        return location;
     }
 }

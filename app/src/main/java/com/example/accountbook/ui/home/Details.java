@@ -18,7 +18,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.accountbook.DisplayFlowInfo;
-import com.example.accountbook.MyApplication;
 import com.example.accountbook.R;
 import com.example.accountbook.adapter.DetailsAdapter;
 import com.example.accountbook.model.FlowData;
