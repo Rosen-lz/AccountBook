@@ -17,20 +17,25 @@ import java.util.List;
 
 
 public class UserService {
-    public static void setUsername(String username) {
-        UserService.username = username;
-    }
+    private static SQLiteDatabase sdb_w = null;
+    private static SQLiteDatabase sdb_r = null;
+
 
     private static String username = null;
     private DatabaseHelper dbHelper;
     public UserService(Context context){
         dbHelper = new DatabaseHelper(context);
+        sdb_w = dbHelper.getWritableDatabase();
+        sdb_r = dbHelper.getReadableDatabase();
+    }
+
+    public static void setUsername(String username) {
+        UserService.username = username;
     }
 
     public String getEmail() {
-        SQLiteDatabase sdb = dbHelper.getReadableDatabase();
         String sql="select email from user where username=?";
-        Cursor cursor = sdb.rawQuery(sql, new String[]{username});
+        Cursor cursor = sdb_r.rawQuery(sql, new String[]{username});
         if (cursor.moveToNext()) {
             String email = cursor.getString(cursor.getColumnIndex("email"));
             return email;
@@ -39,9 +44,8 @@ public class UserService {
     }
 
     public boolean login(String username,String password){
-        SQLiteDatabase sdb = dbHelper.getReadableDatabase();
         String sql="select * from user where username=? or email=? or phone=?";
-        Cursor cursor = sdb.rawQuery(sql, new String[]{username,username,username});
+        Cursor cursor = sdb_r.rawQuery(sql, new String[]{username,username,username});
         if(cursor.moveToFirst()==true){
             String temp = cursor.getString(cursor.getColumnIndex("password"));
             if (temp.equals(password)) {
@@ -54,12 +58,11 @@ public class UserService {
     }
 
     public boolean register(User user){
-        SQLiteDatabase sdb = dbHelper.getReadableDatabase();
-        Cursor cursor = sdb.query("user", null, "username=?", new String[]{user.getUsername()}, null, null, null);
+        Cursor cursor = sdb_w.query("user", null, "username=?", new String[]{user.getUsername()}, null, null, null);
         if (cursor.getCount() == 0){
             String sql="insert into user(username,password,birthday,sex) values(?,?,?,?)";
             Object obj[]={user.getUsername(),user.getPassword(),user.getBirthday(),user.getSex()};
-            sdb.execSQL(sql, obj);
+            sdb_w.execSQL(sql, obj);
             cursor.close();
             return true;
         }else {
@@ -69,9 +72,8 @@ public class UserService {
     }
 
     public User getUserInfo() {
-        SQLiteDatabase sdb = dbHelper.getReadableDatabase();
         String sql = "select * from user where username=?";
-        Cursor cursor = sdb.rawQuery(sql, new String[] {username});
+        Cursor cursor = sdb_r.rawQuery(sql, new String[] {username});
         User user = null;
         if (cursor.moveToNext()) {
             Integer id = cursor.getInt(cursor.getColumnIndex("id"));
@@ -86,18 +88,24 @@ public class UserService {
         return user;
     }
 
-    public void updateInfo(String id, String type, String value) {
-        SQLiteDatabase sdb = dbHelper.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(type, value);
-        sdb.update("user", contentValues, "id=?", new String[]{id});
-        sdb.close();
+    public boolean updateInfo(String id, String type, String value) {
+        try{
+            String sql = "update user set " + type + "=? where id=?";
+            Object obj[] = {value, id};
+            sdb_w.execSQL(sql, obj);
+//            ContentValues contentValues = new ContentValues();
+//            contentValues.put(type, value);
+//            sdb_w.update("user", contentValues, "id=?", new String[]{id});
+            return true;
+        }catch(Exception e){
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public boolean isInfoExist(String type, String value){
-        SQLiteDatabase sdb = dbHelper.getReadableDatabase();
         String sql = "Select * from user where " + type + "=?";
-        Cursor cursor = sdb.rawQuery(sql,new String[]{value});
+        Cursor cursor = sdb_r.rawQuery(sql,new String[]{value});
         if(cursor.getCount() == 0){
             cursor.close();
             return false;
@@ -109,11 +117,10 @@ public class UserService {
 
     public List<FlowData> getData(){
         List<FlowData> mitemList = new ArrayList<>();
-        SQLiteDatabase sdb = dbHelper.getReadableDatabase();
         String sql = "select x.id, x.isCost, x. money, x.makeDate, x.note, x.location, y.type_name " +
                 "from costDetail x, flow_type y, user z where x.type=y.id and z.id=x.user_id and " +
                 "z.username=? order by datetime(x.makeDate) desc";
-        Cursor cursor = sdb.rawQuery(sql, new String[]{username});
+        Cursor cursor = sdb_r.rawQuery(sql, new String[]{username});
         if (cursor.moveToFirst()) {
             Boolean isCost;
             String money, date, type, note, location, flow_id;
@@ -137,12 +144,11 @@ public class UserService {
 
     public List<FlowData> getMonthDate(String Year_Month){
         List<FlowData> mitemList = new ArrayList<>();
-        SQLiteDatabase sdb = dbHelper.getReadableDatabase();
         Integer userId = this.getUserID();
         String sql = "select x.id, x.isCost, x. money, x.makeDate, x.note, x.location, y.type_name " +
                 "from costDetail x, flow_type y where x.type=y.id and x.user_id=? " +
                 "and x.makeDate like ? order by datetime(x.makeDate) desc";
-        Cursor cursor = sdb.rawQuery(sql, new String[]{userId.toString(), "%"+Year_Month+"%"});
+        Cursor cursor = sdb_r.rawQuery(sql, new String[]{userId.toString(), "%"+Year_Month+"%"});
         if (cursor.moveToFirst()) {
             Boolean isCost;
             String money, date, type, note, location, flow_id;
@@ -165,9 +171,8 @@ public class UserService {
 
     public List<Category> getCategory(){
         List<Category> mitemList = new ArrayList<>();
-        SQLiteDatabase sdb = dbHelper.getReadableDatabase();
         String sql = "select * from flow_type";
-        Cursor cursor = sdb.rawQuery(sql, null);
+        Cursor cursor = sdb_r.rawQuery(sql, null);
         if (cursor.moveToFirst()) {
             String name;
             Integer id;
@@ -184,9 +189,8 @@ public class UserService {
 
     public Integer getUserID(){
         Integer temp = null;
-        SQLiteDatabase sdb = dbHelper.getReadableDatabase();
         String sql = "select id from user where username=?";
-        Cursor cursor = sdb.rawQuery(sql, new String[]{username});
+        Cursor cursor = sdb_r.rawQuery(sql, new String[]{username});
         if (cursor.moveToFirst()){
             temp = cursor.getInt(cursor.getColumnIndex("id"));
         }
@@ -195,19 +199,17 @@ public class UserService {
     }
 
     public void insertFlow(InsertFlow temp){
-        SQLiteDatabase sdb = dbHelper.getReadableDatabase();
         String sql = "insert into costDetail(user_id, type, money, note, makeDate, isCost, location) values(?,?,?,?,?,?,?)";
         Object obj[] = {temp.getUserid(), temp.getType(), temp.getMoney(), temp.getNote(), temp.getDate(), temp.getCost(), temp.getLocation()};
-        sdb.execSQL(sql, obj);
+        sdb_w.execSQL(sql, obj);
     }
 
     public List<Percentage> getPieChartData(String isCost, String Year_Month){
-        SQLiteDatabase sdb = dbHelper.getReadableDatabase();
         List<Percentage> data = new ArrayList<>();
         Integer userId = this.getUserID();
         String sql = "select x.money, y.type_name from costDetail x, flow_type y where x.user_id=? and x.isCost=? " +
                 "and x.makeDate like ? and y.id=x.type";
-        Cursor cursor = sdb.rawQuery(sql, new String[]{userId.toString(), isCost, "%"+Year_Month+"%"});
+        Cursor cursor = sdb_r.rawQuery(sql, new String[]{userId.toString(), isCost, "%"+Year_Month+"%"});
         double total = 0;
         if (cursor.moveToFirst()) {
             String label, money;
@@ -233,9 +235,8 @@ public class UserService {
     }
 
     public void deleteData(String id) {
-        SQLiteDatabase sdb = dbHelper.getWritableDatabase();
-        sdb.delete("costDetail","id = ?", new String[]{ id });
-        sdb.close();
+        sdb_w.delete("costDetail","id = ?", new String[]{ id });
+        sdb_w.close();
     }
 }
 

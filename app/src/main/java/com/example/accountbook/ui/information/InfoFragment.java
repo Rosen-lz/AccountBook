@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.example.accountbook.MainActivity;
 import com.example.accountbook.R;
 import com.example.accountbook.UpdateInfoActivity;
 import com.example.accountbook.model.User;
@@ -69,7 +70,7 @@ public class InfoFragment extends Fragment {
     }
 
     private void initData() {
-        UserService temp = new UserService(getContext());
+        UserService temp = new UserService(getActivity());
         user = temp.getUserInfo();
         name.setText(user.getUsername());
         password.setText(user.getPassword());
@@ -107,7 +108,7 @@ public class InfoFragment extends Fragment {
                     intent.putExtra("type", "password");
                     intent.putExtra("value", password.getText());
                     intent.putExtra("id", user.getId());
-                    startActivity(intent);
+                    ((MainActivity)getContext()).startActivityForResult(intent,2);
                 }
                 return true;
             }
@@ -120,7 +121,7 @@ public class InfoFragment extends Fragment {
                     intent.putExtra("type", "email");
                     intent.putExtra("value", email.getText());
                     intent.putExtra("id", user.getId());
-                    startActivity(intent);
+                    ((MainActivity)getContext()).startActivityForResult(intent,2);
                 }
                 return true;
             }
@@ -133,7 +134,7 @@ public class InfoFragment extends Fragment {
                     intent.putExtra("type", "phone");
                     intent.putExtra("value", phone.getText());
                     intent.putExtra("id", user.getId());
-                    startActivity(intent);
+                    ((MainActivity)getContext()).startActivityForResult(intent,2);
                 }
                 return true;
             }
@@ -146,7 +147,7 @@ public class InfoFragment extends Fragment {
                     intent.putExtra("type", "birthday");
                     intent.putExtra("value", birthday.getText());
                     intent.putExtra("id", user.getId());
-                    startActivity(intent);
+                    ((MainActivity)getContext()).startActivityForResult(intent,2);
                 }
                 return true;
             }
@@ -159,7 +160,7 @@ public class InfoFragment extends Fragment {
                     intent.putExtra("type", "sex");
                     intent.putExtra("value", sex.getText());
                     intent.putExtra("id", user.getId());
-                    startActivity(intent);
+                    ((MainActivity)getContext()).startActivityForResult(intent,2);
                 }
                 return true;
             }

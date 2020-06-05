@@ -16,8 +16,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.accountbook.DisplayFlowInfo;
+import com.example.accountbook.MainActivity;
 import com.example.accountbook.R;
 import com.example.accountbook.adapter.DetailsAdapter;
 import com.example.accountbook.model.FlowData;
@@ -144,7 +146,7 @@ public class Details extends Fragment {
                 intent.putExtra("date", mitemList.get(position).getMakeDate());
                 intent.putExtra("note", mitemList.get(position).getNote());
                 intent.putExtra("location", mitemList.get(position).getLocation());
-                startActivity(intent);
+                ((MainActivity)getContext()).startActivityForResult(intent,3);
             }
         });
     }

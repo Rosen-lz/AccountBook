@@ -37,8 +37,9 @@ public class DisplayFlowInfo extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                this.setResult(RESULT_OK, new Intent(this, MainActivity.class));
                 this.finish();
-                return true;
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

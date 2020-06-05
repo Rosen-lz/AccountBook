@@ -82,6 +82,22 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode==1 && resultCode==RESULT_OK){
             //InsertFlowActivity
+            Toast.makeText(this,"Insert successfully", Toast.LENGTH_SHORT).show();
+        }else if(requestCode==1 && resultCode==RESULT_CANCELED){
+            //InsertFlowActivity
+            Toast.makeText(this,"Insert cancel", Toast.LENGTH_SHORT).show();
+        }else if(requestCode==4 && resultCode==RESULT_OK){
+            //DisplayInfoActivity
+            Toast.makeText(this,"Home", Toast.LENGTH_SHORT).show();
+        }else if(requestCode==3 && resultCode==RESULT_OK){
+            //DisplayInfoActivity
+            Toast.makeText(this,"Home", Toast.LENGTH_SHORT).show();
+        }else if (requestCode==2 && resultCode==RESULT_OK){
+            //InsertFlowActivity
+            Toast.makeText(this,"Update successfully", Toast.LENGTH_SHORT).show();
+        }else if(requestCode==2 && resultCode==0){
+            //InsertFlowActivity
+            Toast.makeText(this,"Cancel", Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -45,7 +45,6 @@ public class UpdateInfoActivity extends AppCompatActivity {
         type = intent.getStringExtra("type");
         if (type.equals("password")) {
             LinearLayout linearLayout = findViewById(R.id.update_password);
-            Toast.makeText(this,intent.getStringExtra("value"),Toast.LENGTH_SHORT).show();
             linearLayout.setVisibility(View.VISIBLE);
             password1.setText(intent.getStringExtra("value"));
         } else if (type.equals("email")){
@@ -111,6 +110,7 @@ public class UpdateInfoActivity extends AppCompatActivity {
     }
 
     public void click(View v){
+        boolean isSuccess = false;
         if (type.equals("password")) {
             String temp1 = password2.getText().toString().trim();
             String temp2 = password3.getText().toString().trim();
@@ -126,8 +126,18 @@ public class UpdateInfoActivity extends AppCompatActivity {
                 Toast.makeText(this, "Your new password should be different from the old one", Toast.LENGTH_SHORT).show();
                 return;
             }
-            user.updateInfo(id, type, temp1);
-        } else if(type.equals("email")){
+            String regExp = "^(?![0-9]+$)(?![^0-9]+$)(?![a-zA-Z]+$)(?![^a-zA-Z]+$)(?![a-zA-Z0-9]+$)[a-zA-Z0-9\\S]{8,}$";
+
+            if(temp1.length() < 8){
+                Toast.makeText(this, "The length of password should be more than 8", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if(!temp1.matches(regExp)) {
+                Toast.makeText(this, "Password should start with [A-Za-z] and bound with [0-9] and special symbol", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            isSuccess = user.updateInfo(id, type, temp1);
+        }else if(type.equals("email")){
             String temp = email2.getText().toString().trim();
             if (temp.isEmpty()){
                 Toast.makeText(this,"The email address should not be empty", Toast.LENGTH_SHORT).show();
@@ -148,8 +158,10 @@ public class UpdateInfoActivity extends AppCompatActivity {
                 Toast.makeText(this,"This email address has been used",Toast.LENGTH_SHORT).show();
                 return;
             }
-            user.updateInfo(id, type, temp);
-            MainActivity.setEmail(temp);
+            isSuccess = user.updateInfo(id, type, temp);
+            if(isSuccess){
+                MainActivity.setEmail(temp);
+            }
         }else if(type.equals("phone")){
             String temp = phone2.getText().toString().trim();
             if (temp.isEmpty()){
@@ -164,10 +176,10 @@ public class UpdateInfoActivity extends AppCompatActivity {
                 Toast.makeText(this,"This phone number has been used",Toast.LENGTH_SHORT).show();
                 return;
             }
-            user.updateInfo(id, type, temp);
+            isSuccess = user.updateInfo(id, type, temp);
         }else if(type.equals("sex")){
             String temp = ((RadioButton)findViewById(sex.getCheckedRadioButtonId())).getText().toString();
-            user.updateInfo(id, type, temp);
+            isSuccess = user.updateInfo(id, type, temp);
         }else if(type.equals("birthday")){
             String temp = birthday2.getText().toString().trim();
             if(temp.isEmpty()){
@@ -178,22 +190,26 @@ public class UpdateInfoActivity extends AppCompatActivity {
                 Toast.makeText(this,"The data you select is the same as before", Toast.LENGTH_SHORT);
                 return;
             }
-            user.updateInfo(id, type, temp);
+            isSuccess = user.updateInfo(id, type, temp);
         }
-        Toast.makeText(this, "Update Successfully", Toast.LENGTH_SHORT).show();
-        //call the broadcast receiver in the Details fragment
-        Intent intent = new Intent(InfoFragment.ACTION_TAG);
-        LocalBroadcastManager.getInstance(UpdateInfoActivity.this).sendBroadcast(intent);
-        this.finish();
+        if(isSuccess){
+            //call the broadcast receiver in the Details fragment
+            Intent intent = new Intent(InfoFragment.ACTION_TAG);
+            LocalBroadcastManager.getInstance(UpdateInfoActivity.this).sendBroadcast(intent);
+            this.setResult(RESULT_OK, new Intent(this, MainActivity.class));
+            this.finish();
+        }else{
+            Toast.makeText(this, "Update failed", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                UpdateInfoActivity.this.setResult(RESULT_CANCELED, new Intent(UpdateInfoActivity.this, MainActivity.class));
-                UpdateInfoActivity.this.finish();
-                return true;
+                this.setResult(RESULT_CANCELED, new Intent(UpdateInfoActivity.this, MainActivity.class));
+                this.finish();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

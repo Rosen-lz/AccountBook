@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.accountbook.DisplayFlowInfo;
+import com.example.accountbook.MainActivity;
 import com.example.accountbook.R;
 import com.example.accountbook.model.DayGroup;
 import com.example.accountbook.model.SlideRecyclerView;
@@ -74,7 +75,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
                 intent.putExtra("date", temp.getDay());
                 intent.putExtra("note", itemsList.get(dayPosition).getNote(position));
                 intent.putExtra("location", itemsList.get(dayPosition).getLocation(position));
-                context.startActivity(intent);
+                ((MainActivity)context).startActivityForResult(intent, 4);
             }
         });
     }
